@@ -24,8 +24,7 @@ https://scikit-learn.org
 
 """
 
-from mlpro.wrappers.sklearn.basics import *
-from mlpro.oa.streams.basics import Instance, List
+from mlpro_int_sklearn.wrappers.basics import *
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM

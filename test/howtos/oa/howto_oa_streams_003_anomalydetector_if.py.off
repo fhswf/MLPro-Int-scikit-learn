@@ -35,7 +35,7 @@ from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 # from mlpro.wrappers.openml import WrStreamProviderOpenML
 from mlpro.oa.streams import *
-from mlpro_int_scikit_learn import IsolationForest
+from mlpro_int_sklearn import IsolationForest
 
 
 

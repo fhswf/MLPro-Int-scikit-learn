@@ -12,11 +12,7 @@ packages=['mlpro_int_sklearn'],
 # Package dependencies for full installation
 extras_require={
     "full": [
-        "dill",
-        "numpy",
-        "matplotlib",
-        "multiprocess",
-        "mlpro",
+        "mlpro[full]>=1.3.1",
         "scikit-learn"
     ],
 },

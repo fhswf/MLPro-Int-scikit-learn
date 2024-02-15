@@ -32,7 +32,7 @@ You will learn:
 """
 
 
-from mlpro_int_scikit_learn.wrappers import *
+from mlpro_int_sklearn.wrappers import *
 from mlpro.bf.various import Log
 
 
