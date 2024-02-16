@@ -1,6 +1,6 @@
 .. _howtos_streams:
-Reuse of River Data Streams
-===========================
+Reuse of scikit-learn Data Streams
+==================================
 
 .. toctree::
    :maxdepth: 1

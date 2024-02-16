@@ -12,11 +12,11 @@
 <img src="https://github.com/fhswf/MLPro-Int-Scikit-learn/blob/main/doc/logo/original/logo.png?raw=True" align="right" width="40%"/>
 
 # MLPro-Int-Scikit-learn - Integration of Scikit-learn into MLPro
-Welcome to MLPro-Int-Scikit-learn, an extension to MLPro to integrate the Scikit-learn package. MLPro is a middleware framework for standardized machine learning in Python. It is developed by the South Westphalia University of Applied Sciences, Germany, and provides standards, templates, and processes for hybrid machine learning applications. Scikit-learn, in turn, provides numerous state-of-the-art algorithms for a vast amount of machine learning topics.
+Welcome to MLPro-Int-Scikit-learn, an extension to MLPro to integrate the scikit-learn package. MLPro is a middleware framework for standardized machine learning in Python. It is developed by the South Westphalia University of Applied Sciences, Germany, and provides standards, templates, and processes for hybrid machine learning applications. Scikit-learn, in turn, provides numerous state-of-the-art algorithms for a vast amount of machine learning topics.
 
-MLPro-Int-Scikit-learn provides wrapper classes that enable the use of Scikit-learn algorithms and data streams in your MLPro applications. The use of these wrappers is illustrated in various example programs.
+MLPro-Int-Scikit-learn provides wrapper classes that enable the use of scikit-learn algorithms and data streams in your MLPro applications. The use of these wrappers is illustrated in various example programs.
 
 ### Learn more
 [MLPro - Machine Learning Professional](https://mlpro.readthedocs.io)   
 [MLPro-Int-Scikit-learn - Integration of Scikit-learn into MLPro](https://mlpro-int-scikit-learn.readthedocs.io)   
-[Scikit-learn - Machine Learning in Python](https://scikit-learn.org)   
+[scikit-learn - Machine Learning in Python](https://scikit-learn.org)   

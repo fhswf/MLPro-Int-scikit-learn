@@ -1,5 +1,5 @@
 .. _api_ad:
-Wrappers for Scikit-learn Anomaly Detectors
+Wrappers for scikit-learn Anomaly Detectors
 ===========================================
 
 .. image:: images/MLPro-Int-Scikit-learn-Anomaly_Detectors.drawio.png

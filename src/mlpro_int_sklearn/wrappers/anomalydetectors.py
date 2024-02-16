@@ -1,16 +1,17 @@
 ## -------------------------------------------------------------------------------------------------
-## -- Project : MLPro - A Synoptic Framework for Standardized Machine Learning Tasks
-## -- Package : mlpro.wrappers.sklearn
+## -- Project : MLPro - The integrative middleware framework for standardized machine learning
+## -- Package : mlpro_int_sklearn.wrappers
 ## -- Module  : anomalydetectors.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
 ## -- 2023-06-23  1.0.0     SP       Creation
 ## -- 2023-06-23  1.0.0     SP       First version release
+## -- 2024-02-16  1.1.0     DA       Refactoring
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.0 (2023-06-23)
+Ver. 1.1.0 (2024-02-16)
 
 This module provides wrapper functionalities to incorporate anomaly detector algorithms of the 
 Scikit-learn ecosystem. This module includes three algorithms from Scikit-learn that are embedded to MLPro, such as:
@@ -24,7 +25,6 @@ https://scikit-learn.org
 
 """
 
-from mlpro_int_sklearn.wrappers.basics import *
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM
