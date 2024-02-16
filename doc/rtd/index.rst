@@ -3,21 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-MLPro-Int-Scikit-learn - Integration of Scikit-learn into MLPro
+MLPro-Int-scikit-learn - Integration of scikit-learn into MLPro
 ===============================================================
 
-Welcome to MLPro-Int-Scikit-learn, an extension to MLPro to integrate the scikit-learn package.
+Welcome to MLPro-Int-scikit-learn, an extension to MLPro to integrate the scikit-learn package.
 MLPro is a middleware framework for standardized machine learning in Python. It is 
 developed by the South Westphalia University of Applied Sciences, Germany, and provides 
 standards, templates, and processes for hybrid machine learning applications. Scikit-learn, in turn, 
 provides numerous state-of-the-art algorithms for a vast amount of machine learning topics.
 
-MLPro-Int-Scikit-learn provides wrapper classes that enable the use of scikit-learn algorithms and 
+MLPro-Int-scikit-learn provides wrapper classes that enable the use of scikit-learn algorithms and 
 data streams in your MLPro applications. The use of these wrappers is illustrated in various example programs.
 
 
 **Preparation**
-   Before running the examples, please install the latest versions of MLPro, scikit-learn, and MLPro-Int-Scikit-learn as follows:
+   Before running the examples, please install the latest versions of MLPro, scikit-learn, and MLPro-Int-scikit-learn as follows:
 
    .. code-block:: bash
 
@@ -29,7 +29,7 @@ data streams in your MLPro applications. The use of these wrappers is illustrate
    - `MLPro-OA - Sub-framework for online machine learning <https://mlpro.readthedocs.io/en/latest/content/03_machine_learning/mlpro_oa/main.html>`_
    - `scikit-learn - Machine Learning in Python <https://scikit-learn.org>`_      
    - `Further MLPro extensions <https://mlpro.readthedocs.io/en/latest/content/04_extensions/main.html>`_
-   - `MLPro-Int-Scikit-learn on GitHub <https://github.com/fhswf/MLPro-Int-Scikit-learn>`_
+   - `MLPro-Int-scikit-learn on GitHub <https://github.com/fhswf/MLPro-Int-Scikit-learn>`_
 
 
 .. toctree::
@@ -50,7 +50,7 @@ data streams in your MLPro applications. The use of these wrappers is illustrate
 
 .. toctree::
    :maxdepth: 2
-   :caption: About MLPro-Int-Scikit-learn
+   :caption: About MLPro-Int-scikit-learn
    :glob:
 
    content/03_about/*

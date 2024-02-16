@@ -2,7 +2,7 @@
 Wrappers for scikit-learn Data Streams
 ======================================
 
-.. image:: images/MLPro-Int-Scikit-learn-Streams.drawio.png
+.. image:: images/MLPro-Int-scikit-learn-Streams.drawio.png
    :scale: 50%
 
 

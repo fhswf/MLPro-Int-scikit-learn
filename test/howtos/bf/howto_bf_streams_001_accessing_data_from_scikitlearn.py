@@ -18,14 +18,14 @@
 """
 Ver. 1.2.0 (2024-01-30)
 
-This module demonstrates the use of Scikit-learn datasets as streams in MLPro. To this regard, MLPro
+This module demonstrates the use of scikit-learn datasets as streams in MLPro. To this regard, MLPro
 provides wrapper classes to standardize stream access in own ML applications.
 
 You will learn:
 
-1) How to access datasets of the Scikit-learn project.
+1) How to access datasets of the scikit-learn project.
 
-2) How to iterate the instances of an Scikit-learn stream.
+2) How to iterate the instances of an scikit-learn stream.
 
 3) How to access feature and label data of a data stream.
 

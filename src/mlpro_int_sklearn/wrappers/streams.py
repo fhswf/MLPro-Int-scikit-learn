@@ -30,10 +30,10 @@ https://scikit-learn.org
 """
 
 
-from mlpro_int_sklearn.wrappers import WrapperScikitlearn
+from mlpro_int_sklearn.wrappers import WrapperSklearn
 from mlpro.bf.streams import *
 from mlpro.bf.math import *
-from sklearn import datasets
+from sklearn import datasets as sklearn_datasets
 import numpy
 
 
@@ -41,12 +41,12 @@ import numpy
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrStreamProviderSklearn (WrapperScikitlearn, StreamProvider):
+class WrStreamProviderSklearn (WrapperSklearn, StreamProvider):
     """
     Wrapper class for Sklearn as StreamProvider.
     """
 
-    C_NAME              = 'Stream Provider Scikit-learn'
+    C_NAME              = 'scikit-learn'
 
     _load_utils = [
         "fetch_20newsgroups()",
@@ -78,15 +78,16 @@ class WrStreamProviderSklearn (WrapperScikitlearn, StreamProvider):
         "wine",
     ]
 
-
 ## -------------------------------------------------------------------------------------------------
     def __init__(self, p_logging = Log.C_LOG_ALL):
 
-        WrapperScikitlearn.__init__(self, p_logging=p_logging)
+        self.C_TYPE       = StreamProvider.C_TYPE
+
+        WrapperSklearn.__init__(self, p_logging=p_logging)
         StreamProvider.__init__(self, p_logging=p_logging)
 
         self._stream_list = []
-        self._stream_ids = self._datasets
+        self._stream_ids  = self._datasets
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -186,7 +187,7 @@ class WrStreamSklearn (Stream):
         Further stream specific parameters.
     """
 
-    C_NAME              = 'Sklearn stream'
+    C_NAME              = 'scikit-learn stream'
     C_SCIREF_TYPE       = ScientificObject.C_SCIREF_TYPE_ONLINE
 
 ## -------------------------------------------------------------------------------------------------
@@ -278,11 +279,11 @@ class WrStreamSklearn (Stream):
         Custom download class that assigns the related sklearn dataset and its functionalities to _dataset attribute
         """
 
-        self._dataset = eval("sklearn.datasets."
+        self._dataset = eval("sklearn_datasets."
                          + WrStreamProviderSklearn._load_utils[WrStreamProviderSklearn._datasets.index(self.C_ID)])
 
         self._num_instances = len(self._dataset.data)
-        self.C_SCIREF_ABSTRACT = eval("len(sklearn.datasets."
+        self.C_SCIREF_ABSTRACT = eval("len(sklearn_datasets."
                                  + WrStreamProviderSklearn._load_utils[WrStreamProviderSklearn._datasets.index(self.C_ID)]
                                  + ".DESCR)")
 

@@ -2,7 +2,7 @@
 Wrapper Root Class
 ==================
 
-.. image:: images/MLPro-Int-Scikit-learn.drawio.png
+.. image:: images/MLPro-Int-scikit-learn.drawio.png
    :scale: 50%
 
 

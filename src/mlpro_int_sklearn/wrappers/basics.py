@@ -26,7 +26,7 @@ from mlpro.wrappers.models import Wrapper
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrapperScikitlearn (Wrapper):
+class WrapperSklearn (Wrapper):
     """
     Root class for all scikit-learn wrapper classes.
     """
