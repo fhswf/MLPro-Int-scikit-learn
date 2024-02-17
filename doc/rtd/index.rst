@@ -33,6 +33,14 @@ data streams in your MLPro applications. The use of these wrappers is illustrate
 
 
 .. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: Home
+
+   self
+
+
+.. toctree::
    :maxdepth: 2
    :caption: Example Pool
    :glob:
@@ -50,7 +58,7 @@ data streams in your MLPro applications. The use of these wrappers is illustrate
 
 .. toctree::
    :maxdepth: 2
-   :caption: About MLPro-Int-scikit-learn
+   :caption: About
    :glob:
 
    content/03_about/*
