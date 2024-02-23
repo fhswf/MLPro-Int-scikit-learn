@@ -64,7 +64,7 @@ class AdScenario4ADlof (OAScenario):
 
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = LocalOutlierFactor(p_neighbours = 1, p_visualize=p_visualize)
+        anomalydetector = LocalOutlierFactor(p_neighbours = 2, p_visualize=p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
@@ -82,7 +82,7 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 720
+    cycle_limit = 100
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2

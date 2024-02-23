@@ -83,7 +83,7 @@ class AdScenario4ADif (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 720
+    cycle_limit = 100
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
