@@ -80,32 +80,34 @@ class LocalOutlierFactor(AnomalyDetector):
                 
         # Determine if data point is an anomaly based on its outlier score
         if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
-
-            print("Anomaly detected")
-            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+            event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
                                      p_instance=str(self.data_points[-1]))
             handler = self.event_handler
             self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)"""
+            self._raise_event(event_obj.C_NAME, event_obj)
 
 
 ## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-
 
         for inst in p_inst_new:
             if isinstance(inst, Instance):
                 feature_data = inst.get_feature_data()
             else:
                 feature_data = inst
-        for i,value in feature_data.get_values():
+
+        for i, value in feature_data.get_values():
             print(i, value)
+
+        """
+
+
         self.data_points.append(p_inst_new[0].get_feature_data().get_values())
         if len(self.data_points) > 100:
             self.data_points.pop(0)
 
         if len(self.data_points) >= 20:
-            self.anomaly_scores = self.lof.fit_predict(np.array(self.data_points))
+            self.anomaly_scores = self.lof.fit_predict(np.array(self.data_points))"""
 
 
 ## -------------------------------------------------------------------------------------------------
