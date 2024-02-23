@@ -35,7 +35,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn import IsolationForest
+from mlpro_int_sklearn.wrappers import IsolationForest
 
 
 

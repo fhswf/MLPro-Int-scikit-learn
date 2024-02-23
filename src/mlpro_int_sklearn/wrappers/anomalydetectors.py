@@ -328,7 +328,8 @@ class IsolationForest(AnomalyDetector):
 
         if len(self.data_points[0]) >= 20:
             for i in range(len(values)):
-                scores = self.iso_f.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
+                self.iso_f.fit(np.array(self.data_points[i]).reshape(-1, 1))
+                scores = self.iso_f.predict(np.array(self.data_points[i]).reshape(-1, 1))
                 self.anomaly_scores.append(scores[-1])
 
 
