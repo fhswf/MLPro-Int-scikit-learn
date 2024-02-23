@@ -8,10 +8,11 @@
 ## -- 2023-06-23  1.0.0     SP       Creation
 ## -- 2023-06-23  1.0.0     SP       First version release
 ## -- 2024-02-16  1.1.0     DA       Refactoring
+## -- 2024-02-23  1.1.1     SP       Bug Fix
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-02-16)
+Ver. 1.1.1 (2024-02-23)
 
 This module provides wrapper functionalities to incorporate anomaly detector algorithms of the 
 Scikit-learn ecosystem. This module includes three algorithms from Scikit-learn that are embedded to MLPro, such as:
@@ -170,6 +171,7 @@ class OneClassSVM(AnomalyDetector):
         self.nu = p_nu
         # Instance of the LOF algorithm
         self.svm = OCSVM(kernel=self.kernel, gamma='auto', nu=self.nu)
+        self.count = 0
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -184,23 +186,49 @@ class OneClassSVM(AnomalyDetector):
         #self.anomaly_scores = self.svm.decision_function(p_inst_new, p_inst_del)
                 
         # Determine if the data point is an anomaly based on its outlier score
-        if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
-            event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+        if -1 in self.anomaly_scores:
+            self.count = self.count + 1
+            print("Anomaly detected", self.count)  
+            
+            
+            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
                                      p_instance=str(self.data_points[-1]))
             handler = self.event_handler
             self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)
+            self._raise_event(event_obj.C_NAME, event_obj)"""
 
 
 ## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
         
-        self.data_points.append(p_inst_new[0].get_feature_data().get_values())
-        if len(self.data_points) > 100:
-            self.data_points.pop(0)
+        for inst in p_inst_new:
+            if isinstance(inst, Instance):
+                feature_data = inst.get_feature_data()
+            else:
+                feature_data = inst
 
-        if len(self.data_points) >= 20:
-            self.anomaly_scores = self.svm.fit_predict(np.array(self.data_points))
+        values = feature_data.get_values()
+
+        self.anomaly_scores = []
+        if len(self.data_points) == 0:
+            for i in range(len(values)):
+                self.data_points.append([])
+
+
+        i=0
+        for value in values:
+            self.data_points[i].append(value)
+            i=i+1
+
+        if len(self.data_points[0]) > 100:
+            for i in range(len(values)):
+                self.data_points[i].pop(0)
+
+        if len(self.data_points[0]) >= 20:
+            for i in range(len(values)):
+                scores = self.svm.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
+                self.anomaly_scores.append(scores[-1])
+
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -244,6 +272,7 @@ class IsolationForest(AnomalyDetector):
         # Instance of the LOF algorithm
         self.iso_f = IF(n_estimators=self.num_estimators,
                                                 contamination=self.contamination)
+        self.count = 0
   
 
 ## -------------------------------------------------------------------------------------------------
@@ -252,26 +281,56 @@ class IsolationForest(AnomalyDetector):
         det_time = datetime.now()
         det_time = det_time.strftime("%Y-%m-%d %H:%M:%S")
 
-        # Perform anomaly detection on the current data points
-        #self.anomaly_scores = self.iso_f.decision_function(p_inst_new, p_inst_del)
+        # Adaption
+        self.adapt(p_inst_new, p_inst_del)
 
-        if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
-            event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+        # Perform anomaly detection
+                
+        # Determine if data point is an anomaly based on its outlier score
+        ##if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
+        if -1 in self.anomaly_scores:
+            self.count = self.count + 1
+            print("Anomaly detected", self.count)  
+            
+            
+            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
                                      p_instance=str(self.data_points[-1]))
             handler = self.event_handler
             self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)
+            self._raise_event(event_obj.C_NAME, event_obj)"""
 
 
 ## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
         
-        self.data_points.append(p_inst_new[0].get_feature_data().get_values())
-        if len(self.data_points) > 100:
-            self.data_points.pop(0)
+        for inst in p_inst_new:
+            if isinstance(inst, Instance):
+                feature_data = inst.get_feature_data()
+            else:
+                feature_data = inst
 
-        if len(self.data_points) >= 20:
-            self.anomaly_scores = self.iso_f.fit_predict(np.array(self.data_points))
+        values = feature_data.get_values()
+
+        self.anomaly_scores = []
+        if len(self.data_points) == 0:
+            for i in range(len(values)):
+                self.data_points.append([])
+
+
+        i=0
+        for value in values:
+            self.data_points[i].append(value)
+            i=i+1
+
+        if len(self.data_points[0]) > 100:
+            for i in range(len(values)):
+                self.data_points[i].pop(0)
+
+        if len(self.data_points[0]) >= 20:
+            for i in range(len(values)):
+                scores = self.iso_f.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
+                self.anomaly_scores.append(scores[-1])
+
 
 
 ## -------------------------------------------------------------------------------------------------
