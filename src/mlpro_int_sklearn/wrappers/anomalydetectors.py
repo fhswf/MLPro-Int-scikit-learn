@@ -65,6 +65,7 @@ class LocalOutlierFactor(AnomalyDetector):
         self.num_neighbours = p_neighbours
         # Instance of the LOF Algorithm
         self.lof = LOF(self.num_neighbours)
+        self.count = 0
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -79,12 +80,17 @@ class LocalOutlierFactor(AnomalyDetector):
         # Perform anomaly detection
                 
         # Determine if data point is an anomaly based on its outlier score
-        if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
-            event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+        ##if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
+        if -1 in self.anomaly_scores:
+            self.count = self.count + 1
+            print("Anomaly detected", self.count)  
+            
+            
+            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
                                      p_instance=str(self.data_points[-1]))
             handler = self.event_handler
             self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)
+            self._raise_event(event_obj.C_NAME, event_obj)"""
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -96,18 +102,32 @@ class LocalOutlierFactor(AnomalyDetector):
             else:
                 feature_data = inst
 
-        for i, value in feature_data.get_values():
-            print(i, value)
+        values = feature_data.get_values()
 
-        """
+        self.anomaly_scores = []
+        if len(self.data_points) == 0:
+            for i in range(len(values)):
+                self.data_points.append([])
 
 
-        self.data_points.append(p_inst_new[0].get_feature_data().get_values())
-        if len(self.data_points) > 100:
-            self.data_points.pop(0)
+        i=0
+        for value in values:
+            self.data_points[i].append(value)
+            i=i+1
 
-        if len(self.data_points) >= 20:
-            self.anomaly_scores = self.lof.fit_predict(np.array(self.data_points))"""
+        if len(self.data_points[0]) > 100:
+            for i in range(len(values)):
+                self.data_points[i].pop(0)
+
+        if len(self.data_points[0]) >= 20:
+            for i in range(len(values)):
+                scores = self.lof.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
+                self.anomaly_scores.append(scores[-1])
+        print(self.anomaly_scores)
+
+
+
+        
 
 
 ## -------------------------------------------------------------------------------------------------
