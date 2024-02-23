@@ -98,7 +98,7 @@ class LocalOutlierFactor(AnomalyDetector):
                 feature_data = inst.get_feature_data()
             else:
                 feature_data = inst
-        for i,value in inst.get_values():
+        for i,value in feature_data.get_values():
             print(i, value)
         self.data_points.append(p_inst_new[0].get_feature_data().get_values())
         if len(self.data_points) > 100:
