@@ -34,7 +34,6 @@ Local Outlier Factor
 from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
-# from mlpro.wrappers.openml import WrStreamProviderOpenML
 from mlpro.oa.streams import *
 from mlpro_int_sklearn.wrappers import LocalOutlierFactor
 
@@ -50,7 +49,7 @@ class AdScenario4ADlof (OAScenario):
 ## -------------------------------------------------------------------------------------------------
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
-        # 1 Get stream from the stream provider OpenML
+        # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
                                        p_outlier_frequency = 25,
                                        p_visualize=p_visualize, 
