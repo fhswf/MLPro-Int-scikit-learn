@@ -39,14 +39,13 @@ from datetime import datetime
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
 class LocalOutlierFactor(AnomalyDetector):
-
     C_NAME          = 'LOF Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
-
 
 ## -------------------------------------------------------------------------------------------------
     def __init__(self,
                  p_neighbours = 10,
+                 p_delay = 3,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -64,30 +63,24 @@ class LocalOutlierFactor(AnomalyDetector):
                          **p_kwargs)
         
         self.num_neighbours = p_neighbours
-        # Instance of the LOF Algorithm
         self.lof = LOF(self.num_neighbours)
-        self.count = 0
+        self.delay = p_delay
 
 
 ## -------------------------------------------------------------------------------------------------
     def _run(self, p_inst_new: list, p_inst_del: list):
 
-        det_time = datetime.now()
-        det_time = det_time.strftime("%Y-%m-%d %H:%M:%S")
-
-        # Adaption
         self.adapt(p_inst_new, p_inst_del)
 
-        # Perform anomaly detection
-                
         # Determine if data point is an anomaly based on its outlier score
-        ##if len(self.anomaly_scores) != 0 and self.anomaly_scores[-1] == -1:
-        if -1 in self.anomaly_scores:
-            self.count = self.count + 1
-            print("Anomaly detected", self.count)  
-            
-            
-            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+        if -1 in self.ano_scores:
+            self.ano_counter += 1
+            self.def_anomalies()
+            print(self.ano_type)
+
+        
+        
+        """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
                                      p_instance=str(self.data_points[-1]))
             handler = self.event_handler
             self.register_event_handler(event_obj.C_NAME, handler)
@@ -96,39 +89,34 @@ class LocalOutlierFactor(AnomalyDetector):
 
 ## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-
         for inst in p_inst_new:
             if isinstance(inst, Instance):
                 feature_data = inst.get_feature_data()
             else:
                 feature_data = inst
 
-        values = feature_data.get_values()
-
-        self.anomaly_scores = []
+        self.inst_value = feature_data.get_values()
+        self.inst_id = inst.get_id()
+        print(self.inst_id)
+        
+        self.ano_scores = []
         if len(self.data_points) == 0:
-            for i in range(len(values)):
+            for i in range(len(self.inst_value)):
                 self.data_points.append([])
 
-
         i=0
-        for value in values:
+        for value in self.inst_value:
             self.data_points[i].append(value)
             i=i+1
 
         if len(self.data_points[0]) > 100:
-            for i in range(len(values)):
+            for i in range(len(self.inst_value)):
                 self.data_points[i].pop(0)
 
-        if len(self.data_points[0]) >= 20:
-            for i in range(len(values)):
+        if len(self.data_points[0]) >= self.delay:
+            for i in range(len(self.inst_value)):
                 scores = self.lof.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
-                self.anomaly_scores.append(scores[-1])
-        print(self.anomaly_scores)
-
-
-
-        
+                self.ano_scores.append(scores[-1])
 
 
 ## -------------------------------------------------------------------------------------------------
