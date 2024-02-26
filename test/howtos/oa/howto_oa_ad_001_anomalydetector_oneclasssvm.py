@@ -35,7 +35,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers import OneClassSVM
+from mlpro_int_sklearn.wrappers import WrSklearnOneClassSVM2MLPro
 
 
 
@@ -65,7 +65,7 @@ class AdScenario4ADsvm (OAScenario):
 
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = OneClassSVM(p_kernel='rbf', p_nu=0.01, p_visualize=p_visualize)
+        anomalydetector = WrSklearnOneClassSVM2MLPro(p_kernel='rbf', p_nu=0.01, p_visualize=p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )

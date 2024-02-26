@@ -31,6 +31,7 @@ from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM
 from sklearn.ensemble import IsolationForest as IF
 from datetime import datetime
+from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 
 
@@ -38,7 +39,81 @@ from datetime import datetime
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class LocalOutlierFactor(AnomalyDetector):
+class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
+    C_TYPE = 'ScikitLearn Anomaly Detector'
+    C_NAME = 'ScikitLearn Anomlay Detector'
+
+# -------------------------------------------------------------------------------------------------
+    def __init__(p_name:str = None,
+                 p_range_max = StreamTask.C_RANGE_THREAD,
+                 p_ada : bool = True,
+                 p_duplicate_data : bool = False,
+                 p_visualize : bool = False,
+                 p_logging=Log.C_LOG_ALL,
+                 **p_kwargs):
+
+        super().__init__(p_name = p_name,
+                         p_range_max = p_range_max,
+                         p_ada = p_ada,
+                         p_duplicate_data = p_duplicate_data,
+                         p_visualize = p_visualize,
+                         p_logging = p_logging,
+                         **p_kwargs)
+
+
+# -------------------------------------------------------------------------------------------------
+    def _run(self, p_inst_new: list, p_inst_del: list):
+
+        for inst in p_inst_new:
+            if isinstance(inst, Instance):
+                feature_data = inst.get_feature_data()
+            else:
+                feature_data = inst
+
+        self.inst_value = feature_data.get_values()
+        self.inst_id = inst.get_id()
+        print(self.inst_id)
+        
+        self.ano_scores = []
+        if len(self.data_points) == 0:
+            for i in range(len(self.inst_value)):
+                self.data_points.append([])
+
+        i=0
+        for value in self.inst_value:
+            self.data_points[i].append(value)
+            i=i+1
+
+        if len(self.data_points[0]) > 100:
+            for i in range(len(self.inst_value)):
+                self.data_points[i].pop(0)
+
+        self.adapt(p_inst_new, p_inst_del)
+
+        # Determine if data point is an anomaly based on its outlier score
+        if -1 in self.ano_scores:
+            self.ano_counter += 1
+            self.def_anomalies()
+
+        
+        """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
+                                     p_instance=str(self.data_points[-1]))
+            handler = self.event_handler
+            self.register_event_handler(event_obj.C_NAME, handler)
+            self._raise_event(event_obj.C_NAME, event_obj)"""
+
+
+# -------------------------------------------------------------------------------------------------
+    def event_handler(self, p_event_id, p_event_object:Event):
+        self.log(Log.C_LOG_TYPE_I, 'Received event id', p_event_id)
+
+
+
+
+
+## -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
+class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
     C_NAME          = 'LOF Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 
@@ -68,49 +143,7 @@ class LocalOutlierFactor(AnomalyDetector):
 
 
 # -------------------------------------------------------------------------------------------------
-    def _run(self, p_inst_new: list, p_inst_del: list):
-
-        self.adapt(p_inst_new, p_inst_del)
-
-        # Determine if data point is an anomaly based on its outlier score
-        if -1 in self.ano_scores:
-            self.ano_counter += 1
-            self.def_anomalies()
-
-        
-        
-        """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
-                                     p_instance=str(self.data_points[-1]))
-            handler = self.event_handler
-            self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)"""
-
-
-# -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-        for inst in p_inst_new:
-            if isinstance(inst, Instance):
-                feature_data = inst.get_feature_data()
-            else:
-                feature_data = inst
-
-        self.inst_value = feature_data.get_values()
-        self.inst_id = inst.get_id()
-        print(self.inst_id)
-        
-        self.ano_scores = []
-        if len(self.data_points) == 0:
-            for i in range(len(self.inst_value)):
-                self.data_points.append([])
-
-        i=0
-        for value in self.inst_value:
-            self.data_points[i].append(value)
-            i=i+1
-
-        if len(self.data_points[0]) > 100:
-            for i in range(len(self.inst_value)):
-                self.data_points[i].pop(0)
 
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
@@ -118,17 +151,12 @@ class LocalOutlierFactor(AnomalyDetector):
                 self.ano_scores.append(scores[-1])
 
 
-# -------------------------------------------------------------------------------------------------
-    def event_handler(self, p_event_id, p_event_object:Event):
-        self.log(Log.C_LOG_TYPE_I, 'Received event id', p_event_id)
-
-
 
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class OneClassSVM(AnomalyDetector):
+class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
     C_NAME          = 'One Class SVM Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
@@ -163,68 +191,20 @@ class OneClassSVM(AnomalyDetector):
 
 
 # -------------------------------------------------------------------------------------------------
-    def _run(self, p_inst_new: list, p_inst_del: list):
-
-        self.adapt(p_inst_new, p_inst_del)
-
-        # Determine if data point is an anomaly based on its outlier score
-        if -1 in self.ano_scores:
-            self.ano_counter += 1
-            self.def_anomalies()
-            print(self.ano_type)
-            
-            
-            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
-                                     p_instance=str(self.data_points[-1]))
-            handler = self.event_handler
-            self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)"""
-
-
-# -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-        for inst in p_inst_new:
-            if isinstance(inst, Instance):
-                feature_data = inst.get_feature_data()
-            else:
-                feature_data = inst
-
-        self.inst_value = feature_data.get_values()
-        self.inst_id = inst.get_id()
-        print(self.inst_id)
-        
-        self.ano_scores = []
-        if len(self.data_points) == 0:
-            for i in range(len(self.inst_value)):
-                self.data_points.append([])
-
-        i=0
-        for value in self.inst_value:
-            self.data_points[i].append(value)
-            i=i+1
-
-        if len(self.data_points[0]) > 100:
-            for i in range(len(self.inst_value)):
-                self.data_points[i].pop(0)
 
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
                 scores = self.svm.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
                 self.ano_scores.append(scores[-1])
-
-
-
-## -------------------------------------------------------------------------------------------------
-    def event_handler(self, p_event_id, p_event_object:Event):
-        self.log(Log.C_LOG_TYPE_I, 'Received event id', p_event_id)
-        
+     
 
 
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class IsolationForest(AnomalyDetector):
+class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
     C_NAME          = 'Isolation Forest Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
@@ -259,57 +239,11 @@ class IsolationForest(AnomalyDetector):
   
 
 # -------------------------------------------------------------------------------------------------
-    def _run(self, p_inst_new: list, p_inst_del: list):
-
-        self.adapt(p_inst_new, p_inst_del)
-
-        # Determine if data point is an anomaly based on its outlier score
-        if -1 in self.ano_scores:
-            self.ano_counter += 1
-            self.def_anomalies()
-            
-            
-            """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
-                                     p_instance=str(self.data_points[-1]))
-            handler = self.event_handler
-            self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)"""
-
-
-# -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-        for inst in p_inst_new:
-            if isinstance(inst, Instance):
-                feature_data = inst.get_feature_data()
-            else:
-                feature_data = inst
-
-        self.inst_value = feature_data.get_values()
-        self.inst_id = inst.get_id()
-        print(self.inst_id)
-        
-        self.ano_scores = []
-        if len(self.data_points) == 0:
-            for i in range(len(self.inst_value)):
-                self.data_points.append([])
-
-        i=0
-        for value in self.inst_value:
-            self.data_points[i].append(value)
-            i=i+1
-
-        if len(self.data_points[0]) > 100:
-            for i in range(len(self.inst_value)):
-                self.data_points[i].pop(0)
 
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
                 self.iso_f.fit(np.array(self.data_points[i]).reshape(-1, 1))
                 scores = self.iso_f.predict(np.array(self.data_points[i]).reshape(-1, 1))
                 self.ano_scores.append(scores[-1])
-
-
-# -------------------------------------------------------------------------------------------------
-    def event_handler(self, p_event_id, p_event_object:Event):
-        self.log(Log.C_LOG_TYPE_I, 'Received event id', p_event_id)
 

@@ -35,7 +35,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers import LocalOutlierFactor
+from mlpro_int_sklearn.wrappers import WrSklearnLOF2MLPro
 
 
 
@@ -63,7 +63,7 @@ class AdScenario4ADlof (OAScenario):
 
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = LocalOutlierFactor(p_neighbours = 3, p_delay=3, p_visualize=p_visualize)
+        anomalydetector =WrSklearnLOF2MLPro(p_neighbours = 3, p_delay=3, p_visualize=p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
