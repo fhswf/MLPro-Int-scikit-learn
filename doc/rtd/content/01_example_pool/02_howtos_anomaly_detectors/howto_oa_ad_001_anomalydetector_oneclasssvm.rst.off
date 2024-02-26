@@ -12,7 +12,7 @@ Howto OA-AD-001: Anomaly Detection using One Class SVM
 **Results**
 
 .. image::
-    images/howto_oa_ad_001_anomalydetector_oneclasssvm.gif
+    images/howto_oa_ad_001_anomalydetector_oneclasssvm.png
     :width: 1000px
 
 

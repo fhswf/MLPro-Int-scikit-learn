@@ -12,7 +12,7 @@ Howto OA-AD-002: Anomaly Detection using Local Outlier Factor
 **Results**
 
 .. image::
-    images/howto_oa_ad_002_anomalydetector_lof.gif
+    images/howto_oa_ad_002_anomalydetector_lof.png
     :width: 1000px
 
 

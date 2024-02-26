@@ -12,7 +12,7 @@ Howto OA-AD-003: Anomaly Detection using Isolation Forest
 **Results**
 
 .. image::
-    images/howto_oa_ad_003_anomalydetector_if.gif
+    images/howto_oa_ad_003_anomalydetector_if.png
     :width: 1000px
 
 
