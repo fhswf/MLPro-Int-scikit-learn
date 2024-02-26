@@ -30,7 +30,6 @@ from mlpro.oa.streams.tasks.anomalydetectors import *
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM
 from sklearn.ensemble import IsolationForest as IF
-from datetime import datetime
 from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 
@@ -88,24 +87,9 @@ class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
             for i in range(len(self.inst_value)):
                 self.data_points[i].pop(0)
 
-        self.adapt(p_inst_new, p_inst_del)
-
         # Determine if data point is an anomaly based on its outlier score
         if -1 in self.ano_scores:
-            self.ano_counter += 1
-            self.def_anomalies()
-
-        
-        """event_obj = AnomalyEvent(p_raising_object=self, p_det_time=det_time,
-                                     p_instance=str(self.data_points[-1]))
-            handler = self.event_handler
-            self.register_event_handler(event_obj.C_NAME, handler)
-            self._raise_event(event_obj.C_NAME, event_obj)"""
-
-
-# -------------------------------------------------------------------------------------------------
-    def event_handler(self, p_event_id, p_event_object:Event):
-        self.log(Log.C_LOG_TYPE_I, 'Received event id', p_event_id)
+            self.raise_anomaly_event(inst)
 
 
 
