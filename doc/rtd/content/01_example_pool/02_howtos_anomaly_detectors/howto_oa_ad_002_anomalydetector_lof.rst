@@ -1,10 +1,10 @@
-.. _Howto_OA_CA_002:
-Howto OA-CA-002: Run KMeans on dynamic 2D point clouds
+.. _Howto_OA_AD_002:
+Howto OA-AD-002: Anomaly Detection using Local Outlier Factor
 ======================================================
 
 **Executable code**
 
-.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ca_002_run_kmeans_2d_dynamic.py
+.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ad_002_anomalydetector_lof.py
 	:language: python
 
 
@@ -12,10 +12,10 @@ Howto OA-CA-002: Run KMeans on dynamic 2D point clouds
 **Results**
 
 .. image::
-    images/howto_oa_ca_002_run_kmeans_2d_dynamic.gif
+    images/howto_oa_ad_002_anomalydetector_lof.gif
     :width: 1000px
 
 
 
 **Cross Reference**
-    - :ref:`API Reference: Wrappers for River Cluster Analyzers <api_ca>`
+    - :ref:`API Reference: Wrappers for scikit-learn Anomaly Detectors <api_ad>`

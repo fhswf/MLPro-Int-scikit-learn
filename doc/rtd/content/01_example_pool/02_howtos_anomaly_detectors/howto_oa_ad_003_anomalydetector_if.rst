@@ -1,10 +1,10 @@
-.. _Howto_OA_CA_003:
-Howto OA-CA-003: Run KMeans on normalized static 2D point clouds
+.. _Howto_OA_AD_003:
+Howto OA-AD-003: Anomaly Detection using Isolation Forest
 ================================================================
 
 **Executable code**
 
-.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ca_003_run_kmeans_2d_static_normalized.py
+.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ad_003_anomalydetector_if.py
 	:language: python
 
 
@@ -12,10 +12,10 @@ Howto OA-CA-003: Run KMeans on normalized static 2D point clouds
 **Results**
 
 .. image::
-    images/howto_oa_ca_003_run_kmeans_2d_static_normalized.gif
+    images/howto_oa_ad_003_anomalydetector_if.gif
     :width: 1000px
 
 
 
 **Cross Reference**
-    - :ref:`API Reference: Wrappers for River Cluster Analyzers <api_ca>`
+    - :ref:`API Reference: Wrappers for scikit-learn Anomaly Detectors <api_ad>`

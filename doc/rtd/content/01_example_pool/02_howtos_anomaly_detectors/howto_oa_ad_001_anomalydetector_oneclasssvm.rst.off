@@ -1,5 +1,5 @@
 .. _Howto_OA_AD_001:
-Howto OA-AD-001: Anomaly Detection using OneClassSVM
+Howto OA-AD-001: Anomaly Detection using One Class SVM
 ====================================================
 
 **Executable code**
@@ -18,4 +18,4 @@ Howto OA-AD-001: Anomaly Detection using OneClassSVM
 
 
 **Cross Reference**
-    - :ref:`API Reference: Wrappers for River Cluster Analyzers <api_ca>`
+    - :ref:`API Reference: Wrappers for scikit-learn Anomaly Detectors <api_ad>`
