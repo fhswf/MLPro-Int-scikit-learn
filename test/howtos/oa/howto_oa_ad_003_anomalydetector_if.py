@@ -40,12 +40,11 @@ from mlpro_int_sklearn.wrappers import WrSklearnIsolationForest2MLPro
 
 
 
-
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
 class AdScenario4ADif (OAScenario):
 
-    C_NAME = 'AdScenario4ADlif'
+    C_NAME = 'AdScenario4ADif'
 
 ## -------------------------------------------------------------------------------------------------
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
@@ -63,9 +62,9 @@ class AdScenario4ADif (OAScenario):
                                p_visualize=p_visualize, 
                                p_logging=p_logging )
 
-
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnIsolationForest2MLPro(p_estimators=100, p_visualize = p_visualize, p_contamination=0.01)
+        anomalydetector = WrSklearnIsolationForest2MLPro(p_estimators=50, p_contamination=0.01, p_data_buffer=25,
+                                                         p_delay=5, p_max_samples=3, p_visualize = p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
@@ -76,10 +75,8 @@ class AdScenario4ADif (OAScenario):
 
 
 
-
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
@@ -96,7 +93,6 @@ else:
     step_rate   = 1
 
 
-
 # 2 Instantiate the stream scenario
 myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
@@ -106,7 +102,6 @@ myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
 myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
-
 
 
 # 3 Reset and run own stream scenario

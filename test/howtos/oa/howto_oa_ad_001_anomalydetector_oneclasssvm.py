@@ -40,7 +40,6 @@ from mlpro_int_sklearn.wrappers import WrSklearnOneClassSVM2MLPro
 
 
 
-
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
 class AdScenario4ADsvm (OAScenario):
@@ -63,9 +62,9 @@ class AdScenario4ADsvm (OAScenario):
                                p_visualize=p_visualize, 
                                p_logging=p_logging )
 
-
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnOneClassSVM2MLPro(p_kernel='rbf', p_nu=0.01, p_visualize=p_visualize)
+        anomalydetector = WrSklearnOneClassSVM2MLPro(p_data_buffer=100, p_delay=5, p_kernel='rbf',
+                                                     p_gamma='auto', p_nu=0.05, p_visualize=p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
@@ -79,7 +78,6 @@ class AdScenario4ADsvm (OAScenario):
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
@@ -94,7 +92,6 @@ else:
     logging     = Log.C_LOG_NOTHING
     visualize   = False
     step_rate   = 1
-
 
 
 # 2 Instantiate the stream scenario

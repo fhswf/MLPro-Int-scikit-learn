@@ -15,7 +15,8 @@
 Ver. 1.1.1 (2024-02-23)
 
 This module provides wrapper functionalities to incorporate anomaly detector algorithms of the 
-Scikit-learn ecosystem. This module includes three algorithms from Scikit-learn that are embedded to MLPro, such as:
+Scikit-learn ecosystem. This module includes three algorithms from Scikit-learn that are embedded to
+MLPro, such as:
 
 1) Local Outlier Factor (LOF)
 2) One Class SVM
@@ -35,15 +36,22 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 
 
-
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
+class WrAnomalyDetectorSklearn2MLPro(AnomalyDetector, WrapperSklearn):
+    """
+    This is the base class for anomaly detection by anomaly detection algorithms which are wrapped
+    from Scikit-Learn ecosystem.
+    
+    """
     C_TYPE = 'ScikitLearn Anomaly Detector'
     C_NAME = 'ScikitLearn Anomlay Detector'
 
-# -------------------------------------------------------------------------------------------------
-    def __init__(p_name:str = None,
+## -------------------------------------------------------------------------------------------------
+    def __init__(self,
+                 p_data_buffer = 20,
+                 p_delay = 3,
+                 p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
                  p_duplicate_data : bool = False,
@@ -58,9 +66,12 @@ class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
                          p_visualize = p_visualize,
                          p_logging = p_logging,
                          **p_kwargs)
+        
+        self.data_buffer = p_data_buffer
+        self.delay = p_delay
 
 
-# -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
     def _run(self, p_inst_new: list, p_inst_del: list):
 
         for inst in p_inst_new:
@@ -71,9 +82,8 @@ class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
 
         self.inst_value = feature_data.get_values()
         self.inst_id = inst.get_id()
-        print(self.inst_id)
-        
         self.ano_scores = []
+
         if len(self.data_points) == 0:
             for i in range(len(self.inst_value)):
                 self.data_points.append([])
@@ -81,13 +91,14 @@ class WrAnomalyDetectorSklearn2MLPro(WrapperSklearn, AnomalyDetector):
         i=0
         for value in self.inst_value:
             self.data_points[i].append(value)
-            i=i+1
+            i+=1
 
-        if len(self.data_points[0]) > 100:
+        if len(self.data_points[0]) > self.data_buffer:
             for i in range(len(self.inst_value)):
                 self.data_points[i].pop(0)
 
-        # Determine if data point is an anomaly based on its outlier score
+        self.adapt(p_inst_new, p_inst_del)
+
         if -1 in self.ano_scores:
             self.raise_anomaly_event(inst)
 
@@ -101,10 +112,11 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
     C_NAME          = 'LOF Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 
-# -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
     def __init__(self,
                  p_neighbours = 10,
                  p_delay = 3,
+                 p_data_buffer = 20,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -113,7 +125,9 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_logging=Log.C_LOG_ALL,
                  **p_kwargs):
 
-        super().__init__(p_name = p_name,
+        super().__init__(p_data_buffer = p_data_buffer,
+                         p_delay = p_delay,
+                         p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
                          p_duplicate_data = p_duplicate_data,
@@ -123,12 +137,10 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
         
         self.num_neighbours = p_neighbours
         self.lof = LOF(self.num_neighbours)
-        self.delay = p_delay
 
 
-# -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
                 scores = self.lof.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
@@ -141,16 +153,22 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
 class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
-
     C_NAME          = 'One Class SVM Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 
-
 ## -------------------------------------------------------------------------------------------------
     def __init__(self,
-                 p_kernel = 'rbf',
-                 p_nu = 0.01,
+                 p_data_buffer = 20,
                  p_delay = 3,
+                 p_kernel = 'rbf', #['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']
+                 p_nu = 0.01,
+                 p_degree : int = 3,
+                 p_gamma : float = 'scale', #['scale', 'auto'] or float
+                 p_coef : float = 0,
+                 p_tolerance : float = 0.001,
+                 p_shrinking : bool = True,
+                 p_cache_size : float = 200,
+                 p_verbose : bool = False,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -159,7 +177,9 @@ class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_logging=Log.C_LOG_ALL,
                  **p_kwargs):
 
-        super().__init__(p_name = p_name,
+        super().__init__(p_data_buffer = p_data_buffer,
+                         p_delay = p_delay,
+                         p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
                          p_duplicate_data = p_duplicate_data,
@@ -169,17 +189,31 @@ class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
         
         self.kernel = p_kernel
         self.nu = p_nu
-        # Instance of the LOF algorithm
-        self.svm = OCSVM(kernel=self.kernel, gamma='auto', nu=self.nu)
-        self.delay = p_delay
+        self.degree = p_degree
+        self.gamma = p_gamma
+        self.coef = p_coef
+        self.tol = p_tolerance
+        self.shrinking = p_shrinking
+        self.cache_size = p_cache_size
+        self.verbose = p_verbose
+
+        self.svm = OCSVM(kernel=self.kernel,
+                        nu=self.nu,
+                        degree=self.degree,
+                        gamma=self.gamma,
+                        coef0=self.coef,
+                        tol=self.tol,
+                        shrinking=self.shrinking,
+                        cache_size=self.cache_size,
+                        verbose=self.verbose)
 
 
 # -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
-                scores = self.svm.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
+                self.svm.fit(np.array(self.data_points[i]).reshape(-1, 1))
+                scores = self.svm.predict(np.array(self.data_points[i]).reshape(-1, 1))
                 self.ano_scores.append(scores[-1])
      
 
@@ -189,15 +223,22 @@ class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
 class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
-
     C_NAME          = 'Isolation Forest Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 
-# -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
     def __init__(self,
-                 p_estimators = 100,
-                 p_contamination = 0.01,
+                 p_data_buffer = 20,
                  p_delay = 3,
+                 p_estimators : int = 100,
+                 p_max_samples : int = "auto",
+                 p_contamination : float = "auto",
+                 p_max_features : int = 1,
+                 p_bootstrap : bool = True,
+                 p_no_jobs : int = None,
+                 p_random_state : int = None,
+                 p_verbose : int = 0,
+                 p_warm_start : bool = False,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -206,7 +247,9 @@ class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_logging=Log.C_LOG_ALL,
                  **p_kwargs):
 
-        super().__init__(p_name = p_name,
+        super().__init__(p_data_buffer = p_data_buffer,
+                         p_delay = p_delay,
+                         p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
                          p_duplicate_data = p_duplicate_data,
@@ -216,15 +259,27 @@ class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
         
         self.num_estimators = p_estimators
         self.contamination = p_contamination
-        # Instance of the LOF algorithm
+        self.max_samples = p_max_samples
+        self.max_features = p_max_features
+        self.bootstrap = p_bootstrap
+        self.no_jobs = p_no_jobs
+        self.random_state = p_random_state
+        self.verbose = p_verbose
+        self.warm_start = p_warm_start
+
         self.iso_f = IF(n_estimators=self.num_estimators,
-                                                contamination=self.contamination)
-        self.delay = p_delay
+                        contamination=self.contamination,
+                        max_samples=self.max_samples,
+                        max_features=self.max_features,
+                        bootstrap=self.bootstrap,
+                        n_jobs=self.no_jobs,
+                        random_state=self.random_state,
+                        verbose=self.verbose,
+                        warm_start=self.warm_start)
   
 
-# -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new):
-
         if len(self.data_points[0]) >= self.delay:
             for i in range(len(self.inst_value)):
                 self.iso_f.fit(np.array(self.data_points[i]).reshape(-1, 1))
