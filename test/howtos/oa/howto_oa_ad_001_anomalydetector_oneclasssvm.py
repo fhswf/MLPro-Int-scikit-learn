@@ -63,8 +63,8 @@ class AdScenario4ADsvm (OAScenario):
                                p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnOneClassSVM2MLPro(p_data_buffer=100, p_delay=5, p_kernel='rbf',
-                                                     p_gamma='auto', p_nu=0.05, p_visualize=p_visualize)
+        anomalydetector = WrSklearnOneClassSVM2MLPro(p_data_buffer=25, p_delay=3, p_kernel='poly',
+                                                     p_gamma='scale', p_nu=0.01,p_degree=4,p_coef=0, p_visualize=p_visualize)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
