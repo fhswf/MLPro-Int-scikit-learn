@@ -38,7 +38,7 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrAnomalyDetectorSklearn2MLPro(AnomalyDetector, WrapperSklearn):
+class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
     """
     This is the base class for anomaly detection by anomaly detection algorithms which are wrapped
     from Scikit-Learn ecosystem.
