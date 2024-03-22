@@ -51,8 +51,10 @@ class AdScenario4ADlof (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get stream from the stream provider OpenML
-        openml = WrStreamProviderOpenML(p_logging = logging)
-        mystream = openml.get_stream( p_id='42397', p_name='CreditCardFraudDetection', p_logging=logging)
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
+                                       p_outlier_frequency = 25,
+                                       p_visualize=p_visualize, 
+                                       p_logging=p_logging )
 
         # 2 Creation of a workflow
         workflow = OAWorkflow( p_name='wf1',
@@ -81,18 +83,17 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
+    cycle_limit = 720
     logging     = Log.C_LOG_ALL
     visualize   = True
-    cycle_limit = 30
-    step_rate   = 1
-
+    step_rate   = 2
+  
 else:
     # 1.2 Parameters for internal unit test
-    cycle_limit = 5
+    cycle_limit = 2
     logging     = Log.C_LOG_NOTHING
     visualize   = False
     step_rate   = 1
-
 
 
 # 2 Instantiate the stream scenario
@@ -100,6 +101,10 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
                                  p_visualize=visualize,
                                  p_logging=logging )
+
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+                                                        p_view_autoselect = False,
+                                                        p_step_rate = step_rate ) )
 
 
 # 3 Reset and run own stream scenario
