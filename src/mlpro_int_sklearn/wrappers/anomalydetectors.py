@@ -69,7 +69,6 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
         
         self.data_buffer = p_data_buffer
         self.delay = p_delay
-        self.ano_scores = []
         self.data_points = []
         self.inst_value = 0
 
@@ -102,7 +101,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
         self.adapt(p_inst_new, p_inst_del)
 
         if -1 in self.ano_scores:
-            self.raise_anomaly_event(p_inst_new)
+            self.raise_anomaly_event(p_inst_new, self.ano_scores)
 
 
 
