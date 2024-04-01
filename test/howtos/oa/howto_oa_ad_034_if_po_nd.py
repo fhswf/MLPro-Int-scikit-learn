@@ -1,18 +1,16 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_003_anomalydetector_if.py
+## -- Module  : howto_oa_ad_034_if_po_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-08-02  0.0.0     SY       Creation
-## -- 2023-08-02  1.0.0     SY       First version release
-## -- 2024-01-30  1.1.0     DA       Relocation to separate github repository
-## -- 2024-02-23  1.1.1     SY       Bug fix
+## -- 2023-04-01  0.0.0     SY       Creation
+## -- 2023-04-01  1.0.0     SY       First version release
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.1 (2024-02-23)
+Ver. 1.0.0 (2024-04-01)
 
 This module demonstrates the use of anomaly detector based on isolation forest algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -50,7 +48,7 @@ class AdScenario4ADif (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
                                        p_outlier_frequency = 25,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
@@ -63,7 +61,7 @@ class AdScenario4ADif (OAScenario):
                                p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnIsolationForest2MLPro(p_estimators=50, p_contamination=0.01, p_data_buffer=25,
+        anomalydetector = WrSklearnIsolationForest2MLPro(p_group_anomaly_det=False, p_estimators=50, p_contamination=0.01, p_data_buffer=25,
                                                          p_delay=5, p_max_samples=3, p_visualize = p_visualize)
 
         # 4 Add anomaly detection task to workflow
