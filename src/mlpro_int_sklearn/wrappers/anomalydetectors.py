@@ -51,6 +51,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
     def __init__(self,
                  p_data_buffer = 20,
                  p_delay = 3,
+                 p_group_anomaly_det = True,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -59,7 +60,8 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
                  p_logging=Log.C_LOG_ALL,
                  **p_kwargs):
 
-        super().__init__(p_name = p_name,
+        super().__init__(p_group_anomaly_det=p_group_anomaly_det,
+                         p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
                          p_duplicate_data = p_duplicate_data,
@@ -118,6 +120,7 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_neighbours = 10,
                  p_delay = 3,
                  p_data_buffer = 20,
+                 p_group_anomaly_det = True,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -128,6 +131,7 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
         super().__init__(p_data_buffer = p_data_buffer,
                          p_delay = p_delay,
+                         p_group_anomaly_det=p_group_anomaly_det,
                          p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
@@ -170,6 +174,7 @@ class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_shrinking : bool = True,
                  p_cache_size : float = 200,
                  p_verbose : bool = False,
+                 p_group_anomaly_det = True,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -180,6 +185,7 @@ class WrSklearnOneClassSVM2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
         super().__init__(p_data_buffer = p_data_buffer,
                          p_delay = p_delay,
+                         p_group_anomaly_det=p_group_anomaly_det,
                          p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
@@ -240,6 +246,7 @@ class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
                  p_random_state : int = None,
                  p_verbose : int = 0,
                  p_warm_start : bool = False,
+                 p_group_anomaly_det = True,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
                  p_ada : bool = True,
@@ -250,6 +257,7 @@ class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
         super().__init__(p_data_buffer = p_data_buffer,
                          p_delay = p_delay,
+                         p_group_anomaly_det=p_group_anomaly_det,
                          p_name = p_name,
                          p_range_max = p_range_max,
                          p_ada = p_ada,
