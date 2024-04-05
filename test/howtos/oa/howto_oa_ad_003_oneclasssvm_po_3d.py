@@ -9,10 +9,11 @@
 ## -- 2023-08-02  1.0.0     SY       First version release
 ## -- 2024-01-30  1.1.0     DA       Relocation to separate github repository
 ## -- 2024-02-23  1.1.1     SY       Bug fix
+## -- 2024-04-05  1.1.2     DA       Activated 3D visualization
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.1 (2024-02-23)
+Ver. 1.1.2 (2024-04-05)
 
 This module demonstrates the use of anomaly detector based on one class svm algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -81,7 +82,7 @@ class AdScenario4ADsvm (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
@@ -99,7 +100,7 @@ myscenario = AdScenario4ADsvm( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
                                  p_visualize=visualize,
                                  p_logging=logging )
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D, 
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
