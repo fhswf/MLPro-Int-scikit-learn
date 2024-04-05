@@ -48,7 +48,7 @@ class AdScenario4ADlof (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
                                        p_outlier_frequency = 25,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
@@ -60,13 +60,27 @@ class AdScenario4ADlof (OAScenario):
                                p_visualize=p_visualize, 
                                p_logging=p_logging )
 
-        # 3 Initiailise the lof anomaly detctor class
+        # 3 Initialize a Boundarydetector task
+        task_bd = BoundaryDetector( p_name='Demo Boundary Detector', 
+                                                 p_ada=p_ada, 
+                                                 p_visualize=p_visualize,
+                                                 p_logging=p_logging )
+        
+        # 4 Initialize a Normalizer task
+        task_norm = NormalizerMinMax( p_name='Demo MinMax Normalizer', 
+                                                 p_ada=p_ada, 
+                                                 p_visualize=p_visualize,
+                                                 p_logging=p_logging)
+
+        # 5 Initiailise the lof anomaly detctor class
         anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=True, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=20)
 
-        # 4 Add anomaly detection task to workflow
-        workflow.add_task( p_task=anomalydetector )
+        # 6 Addition of the task to the workflow
+        workflow.add_task(p_task = task_bd)
+        workflow.add_task(p_task = task_norm, p_pred_tasks=[task_bd])
+        workflow.add_task(p_task=anomalydetector, p_pred_tasks=[task_norm] )
 
-        # 5 Return stream and workflow
+        # 7 Return stream and workflow
         return mystream, workflow
 
 
