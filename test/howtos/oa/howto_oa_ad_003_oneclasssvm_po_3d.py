@@ -5,10 +5,10 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-08-02  0.0.0     SY       Creation
-## -- 2023-08-02  1.0.0     SY       First version release
+## -- 2023-08-02  0.0.0     SK       Creation
+## -- 2023-08-02  1.0.0     SK       First version release
 ## -- 2024-01-30  1.1.0     DA       Relocation to separate github repository
-## -- 2024-02-23  1.1.1     SY       Bug fix
+## -- 2024-02-23  1.1.1     SK       Bug fix
 ## -- 2024-04-05  1.1.2     DA       Activated 3D visualization
 ## -------------------------------------------------------------------------------------------------
 

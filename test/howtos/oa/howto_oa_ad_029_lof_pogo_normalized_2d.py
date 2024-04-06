@@ -5,12 +5,13 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2024-04-01  0.0.0     SY       Creation
-## -- 2024-04-01  1.0.0     SY       First version release
+## -- 2024-04-01  0.0.0     SK       Creation
+## -- 2024-04-01  1.0.0     SK       First version release
+## -- 2024-04-06  1.0.1     DA       Set 2D mode
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-04-01)
+Ver. 1.0.1 (2024-04-06)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.

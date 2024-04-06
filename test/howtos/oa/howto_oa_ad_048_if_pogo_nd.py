@@ -1,12 +1,12 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_036_if_pogo_2d.py
+## -- Module  : howto_oa_ad_048_if_pogo_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-04-01  0.0.0     SY       Creation
-## -- 2023-04-01  1.0.0     SY       First version release
+## -- 2024-04-01  0.0.0     SY       Creation
+## -- 2024-04-01  1.0.0     SY       First version release
 ## -------------------------------------------------------------------------------------------------
 
 """
@@ -48,7 +48,7 @@ class AdScenario4ADif (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
                                        p_outlier_frequency = 25,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )

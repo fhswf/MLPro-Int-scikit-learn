@@ -5,8 +5,8 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-04-01  0.0.0     SY       Creation
-## -- 2023-04-01  1.0.0     SY       First version release
+## -- 2023-04-01  0.0.0     SK       Creation
+## -- 2023-04-01  1.0.0     SK       First version release
 ## -------------------------------------------------------------------------------------------------
 
 """
@@ -79,7 +79,7 @@ class AdScenario4ADsvm (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
@@ -97,7 +97,7 @@ myscenario = AdScenario4ADsvm( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
                                  p_visualize=visualize,
                                  p_logging=logging )
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 

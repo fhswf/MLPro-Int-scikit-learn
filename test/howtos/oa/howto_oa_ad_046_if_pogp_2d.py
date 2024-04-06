@@ -1,16 +1,17 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_032_if_po_2d.py
+## -- Module  : howto_oa_ad_046_if_pogo_2d.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-04-01  0.0.0     SY       Creation
-## -- 2023-04-01  1.0.0     SY       First version release
+## -- 2024-04-01  0.0.0     SK       Creation
+## -- 2024-04-01  1.0.0     SK       First version release
+## -- 2024-04-06  1.0.1     DA       Set 2D mode
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.0 (2024-04-01)
+Ver. 1.0.1 (2024-04-06)
 
 This module demonstrates the use of anomaly detector based on isolation forest algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -61,7 +62,7 @@ class AdScenario4ADif (OAScenario):
                                p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnIsolationForest2MLPro(p_group_anomaly_det=False, p_estimators=50, p_contamination=0.01, p_data_buffer=25,
+        anomalydetector = WrSklearnIsolationForest2MLPro(p_group_anomaly_det=True, p_estimators=50, p_contamination=0.01, p_data_buffer=25,
                                                          p_delay=5, p_max_samples=3, p_visualize = p_visualize)
 
         # 4 Add anomaly detection task to workflow
@@ -78,7 +79,7 @@ class AdScenario4ADif (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
@@ -97,7 +98,7 @@ myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_2D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 

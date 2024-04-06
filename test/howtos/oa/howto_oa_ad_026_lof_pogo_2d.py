@@ -5,12 +5,13 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2024-04-01  0.0.0     SY       Creation
-## -- 2024-04-01  1.0.0     SY       First version release
+## -- 2024-04-01  0.0.0     SK       Creation
+## -- 2024-04-01  1.0.0     SK       First version release
+## -- 2024-04-06  1.0.1     DA       Set 2D mode
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-04-01)
+Ver. 1.0.1 (2024-04-06)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -77,10 +78,10 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
-    step_rate   = 1
+    step_rate   = 2
   
 else:
     # 1.2 Parameters for internal unit test
@@ -96,7 +97,7 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_2D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
