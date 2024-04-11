@@ -19,7 +19,7 @@ https://scikit-learn.org
 """
 
 from mlpro.bf.various import ScientificObject
-from mlpro.wrappers.models import Wrapper
+from mlpro.wrappers.basics import Wrapper
 
 
 

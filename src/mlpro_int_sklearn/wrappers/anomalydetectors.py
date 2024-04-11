@@ -28,6 +28,7 @@ https://scikit-learn.org
 """
 
 from mlpro.oa.streams.tasks.anomalydetectors import *
+from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM
 from sklearn.ensemble import IsolationForest as IF
@@ -38,7 +39,7 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
+class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
     """
     This is the base class for anomaly detection by anomaly detection algorithms which are wrapped
     from Scikit-Learn ecosystem.
@@ -73,6 +74,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
         self.delay = p_delay
         self.data_points = []
         self.inst_value = 0
+        self._visualize = p_visualize
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -103,7 +105,10 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorExtended, WrapperSklearn):
         self.adapt(p_inst_new, p_inst_del)
 
         if -1 in self.ano_scores:
-            self.raise_anomaly_event(p_inst_new, self.ano_scores)
+            anomaly = PointAnomaly(p_id=self._get_next_anomaly_id, p_instance=p_inst_new, p_ano_scores=self.ano_scores,
+                                   p_visualize=self._visualize, p_raising_object=self,
+                                   p_det_time=str(p_inst_new[-1].get_tstamp()))
+            self._raise_anomaly_event(anomaly)
 
 
 
