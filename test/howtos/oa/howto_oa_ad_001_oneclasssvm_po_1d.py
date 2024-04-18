@@ -33,7 +33,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers import WrSklearnOneClassSVM2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnOneClassSVM2MLPro
 
 
 
@@ -79,7 +79,7 @@ class AdScenario4ADsvm (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
