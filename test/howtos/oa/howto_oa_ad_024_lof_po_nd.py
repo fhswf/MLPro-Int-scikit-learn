@@ -48,8 +48,8 @@ class AdScenario4ADlof (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
-                                       p_outlier_frequency = 25,
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
+                                       p_outlier_frequency = 200,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -77,10 +77,10 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
-    step_rate   = 1
+    step_rate   = 2
   
 else:
     # 1.2 Parameters for internal unit test
