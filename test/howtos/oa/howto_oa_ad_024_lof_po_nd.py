@@ -33,7 +33,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers import WrSklearnLOF2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
 
 
 
@@ -49,7 +49,7 @@ class AdScenario4ADlof (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
-                                       p_outlier_rate=0.02,
+                                       p_outlier_frequency = 25,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
-    step_rate   = 1
+    step_rate   = 2
   
 else:
     # 1.2 Parameters for internal unit test

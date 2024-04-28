@@ -6,10 +6,11 @@
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
 ## -- 2024-02-16  1.0.0     DA       First version
+## -- 2024-04-18  1.1.0     DA       Alignment ot MLPro 1.4.0
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.0 (2024-02-16)
+Ver. 1.1.0 (2024-04-18)
 
 This module contains the abstract root class for all scikit-learn wrapper classes.
 
@@ -19,7 +20,7 @@ https://scikit-learn.org
 """
 
 from mlpro.bf.various import ScientificObject
-from mlpro.wrappers.basics import Wrapper
+from mlpro.wrappers import Wrapper
 
 
 

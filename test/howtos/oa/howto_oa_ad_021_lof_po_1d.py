@@ -10,7 +10,7 @@
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-04-01)
+Ver. 1.0.0 (2024-04-01)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -33,7 +33,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers import WrSklearnLOF2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
 
 
 
@@ -77,7 +77,7 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 1
