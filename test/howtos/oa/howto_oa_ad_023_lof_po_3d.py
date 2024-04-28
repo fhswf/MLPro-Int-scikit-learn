@@ -52,7 +52,7 @@ class AdScenario4ADlof (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
-                                       p_outlier_frequency = 25,
+                                       p_outlier_rate=0.01,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -64,7 +64,7 @@ class AdScenario4ADlof (OAScenario):
                                p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=False, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=20)
+        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=False, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=5)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
@@ -99,7 +99,7 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
