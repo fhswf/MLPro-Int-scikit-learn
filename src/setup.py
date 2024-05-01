@@ -12,7 +12,7 @@ packages=['mlpro_int_sklearn'],
 # Package dependencies for full installation
 extras_require={
     "full": [
-        "mlpro[full]>=1.4.0",
+        "mlpro[full]>=1.4.1",
         "scikit-learn>=1.4.1"
     ],
 },

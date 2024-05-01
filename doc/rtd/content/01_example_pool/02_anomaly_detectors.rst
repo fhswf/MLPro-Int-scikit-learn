@@ -1,4 +1,4 @@
-.. _howtos_cluster_analysis:
+.. _howtos_anomaly_detectors:
 Reuse of scikit-learn Anomaly Detectors
 =======================================
 

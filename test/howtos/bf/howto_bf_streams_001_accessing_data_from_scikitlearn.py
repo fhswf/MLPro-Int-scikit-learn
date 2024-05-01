@@ -1,5 +1,5 @@
 ## -------------------------------------------------------------------------------------------------
-## -- Project : MLPro - A Synoptic Framework for Standardized Machine Learning Tasks
+## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
 ## -- Module  : howto_bf_streams_001_accessing_data_from_scikitlearn.py
 ## -------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ You will learn:
 """
 
 
-from mlpro_int_sklearn.wrappers import *
+from mlpro_int_sklearn import *
 from mlpro.bf.various import Log
 
 
