@@ -99,7 +99,7 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
