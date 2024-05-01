@@ -17,11 +17,12 @@ data streams in your MLPro applications. The use of these wrappers is illustrate
 
 
 **Preparation**
-   Before running the examples, please install the latest versions of MLPro, scikit-learn, and MLPro-Int-scikit-learn as follows:
 
-   .. code-block:: bash
+Before running the examples, please install the latest versions of MLPro, scikit-learn, and MLPro-Int-scikit-learn as follows:
 
-      pip install mlpro-int-scikit-learn[full] --upgrade
+.. code-block:: bash
+
+   pip install mlpro-int-scikit-learn[full] --upgrade
 
 
 **See also**
