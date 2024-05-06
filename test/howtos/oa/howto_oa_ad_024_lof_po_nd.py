@@ -49,7 +49,7 @@ class AdScenario4ADlof (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
-                                       p_outlier_frequency = 25,
+                                       p_outlier_rate=0.01,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
