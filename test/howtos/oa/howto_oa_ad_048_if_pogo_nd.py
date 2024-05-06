@@ -48,7 +48,7 @@ class AdScenario4ADif (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const', 'lin'],
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
                                        p_outlier_rate=0.02,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
