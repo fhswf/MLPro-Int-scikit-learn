@@ -10,10 +10,11 @@
 ## -- 2024-01-30  1.1.0     DA       Relocation to separate github repository
 ## -- 2024-02-23  1.1.1     SK       Bug fix
 ## -- 2024-04-06  1.1.2     DA       Set 3D mode
+## -- 2024-05-07  1.1.3     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.2 (2024-04-06)
+Ver. 1.1.3 (2024-05-07)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
