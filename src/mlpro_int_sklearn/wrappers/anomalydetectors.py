@@ -32,14 +32,14 @@ https://scikit-learn.org
 
 """
 
-from typing import List
-from mlpro.bf.streams import Instance, List
+from mlpro.bf.streams import Instance
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from sklearn.svm import OneClassSVM as OCSVM
 from sklearn.ensemble import IsolationForest as IF
 from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
+
 
 
 
@@ -85,7 +85,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
 
 
 ## -------------------------------------------------------------------------------------------------
-    def _run(self, p_inst_new: list, p_inst_del: list):
+    def _run(self, p_inst_new: list[Instance], p_inst_del: list[Instance]):
 
         for inst in p_inst_new:
             feature_data = inst.get_feature_data()
@@ -110,7 +110,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
 
             if -1 in self.ano_scores:
                 anomaly = PointAnomaly( p_id=self._get_next_anomaly_id, 
-                                        p_instance=inst, 
+                                        p_instances=inst, 
                                         p_ano_scores=self.ano_scores,
                                         p_visualize=self._visualize, 
                                         p_raising_object=self,
