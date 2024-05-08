@@ -1,20 +1,17 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_023_lof_po_3d.py
+## -- Module  : howto_oa_ad_024_lof_po_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2023-08-02  0.0.0     SK       Creation
-## -- 2023-08-02  1.0.0     SK       First version release
-## -- 2024-01-30  1.1.0     DA       Relocation to separate github repository
-## -- 2024-02-23  1.1.1     SK       Bug fix
-## -- 2024-04-06  1.1.2     DA       Set 3D mode
-## -- 2024-05-07  1.1.3     SK       Change in parameter p_outlier_rate
+## -- 2024-04-01  0.0.0     SK       Creation
+## -- 2024-04-01  1.0.0     SK       First version release
+## -- 2024-05-07  1.0.1     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.3 (2024-05-07)
+Ver. 1.0.1 (2024-05-07)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -37,7 +34,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors.lof import WrSklearnLOF2MLPro
 
 
 
@@ -54,6 +51,7 @@ class AdScenario4ADlof (OAScenario):
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
                                        p_outlier_rate=0.01,
+                                       p_seed=42,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -100,7 +98,7 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 

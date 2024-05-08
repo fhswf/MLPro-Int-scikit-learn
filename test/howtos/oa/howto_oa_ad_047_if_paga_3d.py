@@ -1,13 +1,13 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_046_if_pogo_2d.py
+## -- Module  : howto_oa_ad_047_if_pogo_3d.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
 ## -- 2024-04-01  0.0.0     SK       Creation
 ## -- 2024-04-01  1.0.0     SK       First version release
-## -- 2024-04-06  1.0.1     DA       Set 2D mode
+## -- 2024-04-06  1.0.1     DA       Set 3D mode
 ## -- 2024-05-07  1.0.2     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ class AdScenario4ADif (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
-                                       p_outlier_rate=0.02,
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
+                                       p_outlier_rate=0.1,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -99,7 +99,7 @@ myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_2D,
+myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 

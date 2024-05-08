@@ -1,17 +1,18 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_024_lof_po_nd.py
+## -- Module  : howto_oa_ad_028_lof_pogo_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
 ## -- 2024-04-01  0.0.0     SK       Creation
 ## -- 2024-04-01  1.0.0     SK       First version release
-## -- 2024-05-07  1.0.1     SK       Change in parameter p_outlier_rate
+## -- 2024-04-06  1.0.1     DA       Set 2D mode
+## -- 2024-05-07  1.0.2     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.1 (2024-05-07)
+Ver. 1.0.2 (2024-05-07)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -49,8 +50,8 @@ class AdScenario4ADlof (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
-                                       p_outlier_rate=0.01,
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
+                                       p_outlier_rate= 0.1,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
@@ -61,13 +62,27 @@ class AdScenario4ADlof (OAScenario):
                                p_visualize=p_visualize, 
                                p_logging=p_logging )
 
-        # 3 Initiailise the lof anomaly detctor class
-        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=False, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=5)
+        # 3 Initialize a Boundarydetector task
+        task_bd = BoundaryDetector( p_name='Demo Boundary Detector', 
+                                                 p_ada=p_ada, 
+                                                 p_visualize=p_visualize,
+                                                 p_logging=p_logging )
+        
+        # 4 Initialize a Normalizer task
+        task_norm = NormalizerMinMax( p_name='Demo MinMax Normalizer', 
+                                                 p_ada=p_ada, 
+                                                 p_visualize=p_visualize,
+                                                 p_logging=p_logging)
 
-        # 4 Add anomaly detection task to workflow
-        workflow.add_task( p_task=anomalydetector )
+        # 5 Initiailise the lof anomaly detctor class
+        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=True, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=5)
 
-        # 5 Return stream and workflow
+        # 6 Addition of the task to the workflow
+        workflow.add_task(p_task = task_bd)
+        workflow.add_task(p_task = task_norm, p_pred_tasks=[task_bd])
+        workflow.add_task(p_task=anomalydetector, p_pred_tasks=[task_norm] )
+
+        # 7 Return stream and workflow
         return mystream, workflow
 
 
@@ -78,10 +93,10 @@ class AdScenario4ADlof (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 360
+    cycle_limit = 100
     logging     = Log.C_LOG_ALL
     visualize   = True
-    step_rate   = 2
+    step_rate   = 1
   
 else:
     # 1.2 Parameters for internal unit test

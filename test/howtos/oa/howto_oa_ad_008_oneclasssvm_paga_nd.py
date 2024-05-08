@@ -1,7 +1,7 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_004_oneclasssvm_po_nd.py
+## -- Module  : howto_oa_ad_008_oneclasssvm_pogo_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
@@ -34,7 +34,7 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnOneClassSVM2MLPro
+from mlpro_int_sklearn import WrSklearnOneClassSVM2MLPro
 
 
 
@@ -50,7 +50,7 @@ class AdScenario4ADsvm (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
-                                       p_outlier_rate=0.02,
+                                       p_outlier_rate=0.1,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 

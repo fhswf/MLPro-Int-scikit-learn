@@ -1,19 +1,19 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_041_if_po_1d.py
+## -- Module  : howto_oa_ad_022_lof_po_1d.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2024-04-01  0.0.0     SY       Creation
-## -- 2024-04-01  1.0.0     SY       First version release
+## -- 2024-04-01  0.0.0     SK       Creation
+## -- 2024-04-01  1.0.0     SK       First version release
 ## -- 2024-05-07  1.0.1     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
 """
 Ver. 1.0.1 (2024-05-07)
 
-This module demonstrates the use of anomaly detector based on isolation forest algorithm with MLPro.
+This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
 The workflow consists of a standard task 'Aanomaly Detector'.
 
@@ -26,7 +26,7 @@ You will learn:
 3) How to add a task anomalydetector.
 
 4) How to reuse an anomaly detector algorithm from scikitlearn (https://scikit-learn.org/), specifically
-Isolation Forest
+Local Outlier Factor
 
 """
 
@@ -34,25 +34,25 @@ from mlpro.bf.streams.streams import *
 from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
-from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnIsolationForest2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors.lof import WrSklearnLOF2MLPro
 
 
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class AdScenario4ADif (OAScenario):
+class AdScenario4ADlof (OAScenario):
 
-    C_NAME = 'AdScenario4ADif'
+    C_NAME = 'AdScenario4ADlof'
 
 ## -------------------------------------------------------------------------------------------------
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin'],
-                                       p_outlier_rate=0.02,
-                                       p_visualize=p_visualize, 
-                                       p_logging=p_logging )
+                                         p_outlier_rate=0.01,
+                                         p_visualize=p_visualize, 
+                                         p_logging=p_logging )
 
         # 2 Creation of a workflow
         workflow = OAWorkflow( p_name='wf1',
@@ -62,8 +62,7 @@ class AdScenario4ADif (OAScenario):
                                p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnIsolationForest2MLPro(p_group_anomaly_det=False, p_estimators=50, p_contamination=0.01, p_data_buffer=25,
-                                                         p_delay=5, p_max_samples=3, p_visualize = p_visualize)
+        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=False, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=20)
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
@@ -79,21 +78,21 @@ class AdScenario4ADif (OAScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 360
     logging     = Log.C_LOG_ALL
     visualize   = True
-    step_rate   = 2
-
+    step_rate   = 1
+  
 else:
     # 1.2 Parameters for internal unit test
-    cycle_limit = 5
+    cycle_limit = 2
     logging     = Log.C_LOG_NOTHING
     visualize   = False
     step_rate   = 1
 
 
 # 2 Instantiate the stream scenario
-myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
+myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
                                  p_visualize=visualize,
                                  p_logging=logging )
