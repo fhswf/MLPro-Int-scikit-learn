@@ -1,4 +1,4 @@
-mlpro[full]>=1.4.1
+mlpro[full]>=1.4.3
 scikit-learn>=1.4.1
 
 sphinxcontrib-napoleon

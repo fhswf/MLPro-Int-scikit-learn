@@ -1,16 +1,17 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_045_if_pogo_1d.py
+## -- Module  : howto_oa_ad_048_if_pogo_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
-## -- 2024-04-01  0.0.0     SK       Creation
-## -- 2024-04-01  1.0.0     SK       First version release
+## -- 2024-04-01  0.0.0     SY       Creation
+## -- 2024-04-01  1.0.0     SY       First version release
+## -- 2024-05-07  1.0.1     SK       Change in parameter p_outlier_rate
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.0 (2024-04-01)
+Ver. 1.0.1 (2024-05-07)
 
 This module demonstrates the use of anomaly detector based on isolation forest algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -48,8 +49,8 @@ class AdScenario4ADif (OAScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin'],
-                                       p_outlier_rate=0.02,
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos', 'const'],
+                                       p_outlier_rate=0.1,
                                        p_visualize=p_visualize, 
                                        p_logging=p_logging )
 
