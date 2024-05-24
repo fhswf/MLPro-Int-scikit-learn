@@ -12,10 +12,11 @@
 ## -- 2024-04-16  1.1.2     DA       Bugfixes in 
 ## --                                - WrSklearnLOF2MLPro._adapt()
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
+## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.2.0 (2024-05-07)
+Ver. 1.3.0 (2024-05-24)
 
 This module provides wrapper functionalities to incorporate Local Outlier Factor algorithm of the 
 Scikit-learn ecosystem.
@@ -71,7 +72,7 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
 
 
 ## -------------------------------------------------------------------------------------------------
-    def _adapt(self, p_inst_new: List[Instance]) -> bool:
+    def _adapt(self, p_inst_new: Instance) -> bool:
         adapted = False
 
         if len(self.data_points[0]) >= self.delay:
