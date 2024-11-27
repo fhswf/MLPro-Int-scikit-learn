@@ -13,10 +13,11 @@
 ## --                                - WrAnomalyDetectorSklearn2MLPro._run()
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
+## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.3.0 (2024-05-24)
+Ver. 1.4.0 (2024-11-27)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -25,9 +26,11 @@ https://scikit-learn.org
 
 """
 
-from mlpro.bf.streams import Instance, InstDict, InstTypeNew
+from mlpro.bf.various import Log
+from mlpro.bf.streams import StreamTask, InstDict, InstTypeNew
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
+
 from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 

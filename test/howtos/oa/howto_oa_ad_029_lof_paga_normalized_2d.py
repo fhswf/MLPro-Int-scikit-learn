@@ -9,10 +9,11 @@
 ## -- 2024-04-01  1.0.0     SK       First version release
 ## -- 2024-04-06  1.0.1     DA       Set 2D mode
 ## -- 2024-05-07  1.0.2     SK       Change in parameter p_outlier_rate
+## -- 2024-11-27  1.1.0     DA       Alignment with MLPro 1.9.2
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.2 (2024-05-07)
+Ver. 1.1.0 (2024-11-27)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -31,9 +32,12 @@ Local Outlier Factor
 
 """
 
-from mlpro.bf.streams.streams import *
+
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
+from mlpro.oa.streams.tasks import BoundaryDetector, NormalizerMinMax
+from mlpro.bf.streams.streams import StreamMLProPOutliers
+
 from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
 
 
@@ -87,8 +91,6 @@ class AdScenario4ADlof (OAScenario):
 
 
 
-## -------------------------------------------------------------------------------------------------
-## -------------------------------------------------------------------------------------------------
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode

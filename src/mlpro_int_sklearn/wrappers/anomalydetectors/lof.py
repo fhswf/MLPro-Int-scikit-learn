@@ -13,10 +13,11 @@
 ## --                                - WrSklearnLOF2MLPro._adapt()
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
+## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.3.0 (2024-05-24)
+Ver. 1.4.0 (2024-11-27)
 
 This module provides wrapper functionalities to incorporate Local Outlier Factor algorithm of the 
 Scikit-learn ecosystem.
@@ -26,12 +27,16 @@ https://scikit-learn.org
 
 """
 
-from mlpro.bf.streams import Instance
+import numpy as np
+
+from mlpro.bf.various import Log
+from mlpro.bf.streams import Instance, StreamTask
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
-from sklearn.neighbors import LocalOutlierFactor as LOF
-from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetectorSklearn2MLPro
 
+from sklearn.neighbors import LocalOutlierFactor as LOF
+
+from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetectorSklearn2MLPro
 
 
 
