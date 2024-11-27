@@ -107,16 +107,17 @@ myscenario = AdScenario4ADsvm( p_mode=Mode.C_MODE_REAL,
                                p_cycle_limit=cycle_limit,
                                p_visualize=visualize,
                                p_logging=logging )
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
-                                                    p_view_autoselect = False,
-                                                    p_step_rate = step_rate ) )
+
+if visualize:
+    myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+                                                        p_view_autoselect = False,
+                                                        p_step_rate = step_rate ) )
 
 
 # 3 Reset and run own stream scenario
 myscenario.reset()
 
 if __name__ == '__main__':
-    myscenario.init_plot()
     input('Press ENTER to start stream processing...')
 
 myscenario.run()
