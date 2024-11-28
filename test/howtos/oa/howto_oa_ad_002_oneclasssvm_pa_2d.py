@@ -9,10 +9,11 @@
 ## -- 2023-04-01  1.0.0     SK       First version release
 ## -- 2024-04-05  1.0.1     DA       Activated 2D visualization
 ## -- 2024-05-07  1.0.2     SK       Change in parameter p_outlier_rate
+## -- 2024-11-27  1.0.3     DA       Correction for unit testing
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.2 (2024-05-07)
+Ver. 1.0.3 (2024-11-27)
 
 This module demonstrates the use of anomaly detector based on one class svm algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -32,7 +33,6 @@ One Class SVM
 """
 
 from mlpro.bf.streams.streams import *
-from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
 from mlpro_int_sklearn.wrappers.anomalydetectors.ocsvm import WrSklearnOneClassSVM2MLPro
@@ -99,7 +99,9 @@ myscenario = AdScenario4ADsvm( p_mode=Mode.C_MODE_REAL,
                                  p_cycle_limit=cycle_limit,
                                  p_visualize=visualize,
                                  p_logging=logging )
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_2D,
+
+if visualize:
+    myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_2D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
@@ -108,7 +110,6 @@ myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW
 myscenario.reset()
 
 if __name__ == '__main__':
-    myscenario.init_plot()
     input('Press ENTER to start stream processing...')
 
 myscenario.run()

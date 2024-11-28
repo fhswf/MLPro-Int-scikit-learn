@@ -8,10 +8,11 @@
 ## -- 2024-04-01  0.0.0     SK       Creation
 ## -- 2024-04-01  1.0.0     SK       First version release
 ## -- 2024-05-07  1.0.1     SK       Change in parameter p_outlier_rate
+## -- 2024-11-27  1.0.3     DA       Correction for unit testing
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.0.1 (2024-05-07)
+Ver. 1.0.3 (2024-11-27)
 
 This module demonstrates the use of anomaly detector based on isolation forest algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -31,7 +32,6 @@ Isolation Forest
 """
 
 from mlpro.bf.streams.streams import *
-from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
 from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnIsolationForest2MLPro
@@ -98,7 +98,8 @@ myscenario = AdScenario4ADif( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
+if visualize:
+    myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
@@ -107,7 +108,6 @@ myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW
 myscenario.reset()
 
 if __name__ == '__main__':
-    myscenario.init_plot()
     input('Press ENTER to start stream processing...')
 
 myscenario.run()

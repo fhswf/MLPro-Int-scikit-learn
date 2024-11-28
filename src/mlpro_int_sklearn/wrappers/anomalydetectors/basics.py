@@ -12,10 +12,12 @@
 ## -- 2024-04-16  1.1.2     DA       Bugfixes in 
 ## --                                - WrAnomalyDetectorSklearn2MLPro._run()
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
+## -- 2024-05-24  1.3.0     DA       Refactoring
+## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.2.0 (2024-05-07)
+Ver. 1.4.0 (2024-11-27)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -24,9 +26,11 @@ https://scikit-learn.org
 
 """
 
-from mlpro.bf.streams import Instance
+from mlpro.bf.various import Log
+from mlpro.bf.streams import StreamTask, InstDict, InstTypeNew
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
+
 from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 
@@ -74,9 +78,12 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
 
 
 ## -------------------------------------------------------------------------------------------------
-    def _run(self, p_inst_new: list[Instance], p_inst_del: list[Instance]):
+    def _run(self, p_inst: InstDict ):
 
-        for inst in p_inst_new:
+        for inst_id, (inst_type, inst) in sorted(p_inst.items()):
+
+            if inst_type != InstTypeNew: continue
+
             feature_data = inst.get_feature_data()
 
             self.inst_value = feature_data.get_values()
@@ -95,7 +102,7 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
                 for i in range(len(self.inst_value)):
                     self.data_points[i].pop(0)
 
-            self.adapt(p_inst_new = [inst], p_inst_del=[] )
+            self.adapt(p_inst = { inst_id : ( inst_type, inst ) } )
 
             if -1 in self.ano_scores:
                 anomaly = PointAnomaly( p_id=self._get_next_anomaly_id, 
@@ -103,6 +110,6 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
                                         p_ano_scores=self.ano_scores,
                                         p_visualize=self._visualize, 
                                         p_raising_object=self,
-                                        p_det_time=str(p_inst_new[-1].get_tstamp()) )
+                                        p_det_time=str(inst.tstamp) )
                 self._raise_anomaly_event(anomaly)
 

@@ -11,10 +11,11 @@
 ## -- 2024-02-23  1.1.1     SK       Bug fix
 ## -- 2024-04-06  1.1.2     DA       Set 3D mode
 ## -- 2024-05-07  1.1.3     SK       Change in parameter p_outlier_rate
+## -- 2024-11-27  1.1.4     DA       Correction for unit testing
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.3 (2024-05-07)
+Ver. 1.1.4 (2024-11-27)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -34,7 +35,6 @@ Local Outlier Factor
 """
 
 from mlpro.bf.streams.streams import *
-from mlpro.bf.streams.models import *
 from mlpro.bf.various import Log
 from mlpro.oa.streams import *
 from mlpro_int_sklearn.wrappers.anomalydetectors.lof import WrSklearnLOF2MLPro
@@ -101,7 +101,8 @@ myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
                                  p_visualize=visualize,
                                  p_logging=logging )
 
-myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
+if visualize:
+    myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_3D,
                                                         p_view_autoselect = False,
                                                         p_step_rate = step_rate ) )
 
@@ -110,7 +111,6 @@ myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW
 myscenario.reset()
 
 if __name__ == '__main__':
-    myscenario.init_plot()
     input('Press ENTER to start stream processing...')
 
 myscenario.run()
