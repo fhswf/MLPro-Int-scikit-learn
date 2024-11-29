@@ -6,7 +6,7 @@ Wrappers for scikit-learn Anomaly Detectors
    :scale: 50%
 
 
-.. automodule:: mlpro_int_sklearn.wrappers.anomalydetectors
+.. automodule:: mlpro_int_sklearn.wrappers.anomalydetectors.basics
     :members:
     :undoc-members:
     :private-members:
