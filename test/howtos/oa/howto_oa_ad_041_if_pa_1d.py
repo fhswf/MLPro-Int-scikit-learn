@@ -41,7 +41,7 @@ from mlpro_int_sklearn.wrappers.anomalydetectors.isof import WrSklearnIsolationF
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class AdScenario4ADif (OAScenario):
+class AdScenario4ADif (OAStreamScenario):
 
     C_NAME = 'AdScenario4ADif'
 
@@ -50,20 +50,26 @@ class AdScenario4ADif (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin'],
-                                       p_outlier_rate=0.02,
-                                       p_visualize=p_visualize, 
-                                       p_logging=p_logging )
+                                         p_outlier_rate=0.02,
+                                         p_visualize=p_visualize, 
+                                         p_logging=p_logging )
 
         # 2 Creation of a workflow
-        workflow = OAWorkflow( p_name='wf1',
-                               p_range_max=OAWorkflow.C_RANGE_NONE,
-                               p_ada=p_ada,
-                               p_visualize=p_visualize, 
-                               p_logging=p_logging )
+        workflow = OAStreamWorkflow( p_name='wf1',
+                                     p_range_max=OAStreamWorkflow.C_RANGE_NONE,
+                                     p_ada=p_ada,
+                                     p_visualize=p_visualize, 
+                                     p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
-        anomalydetector = WrSklearnIsolationForest2MLPro(p_group_anomaly_det=False, p_estimators=50, p_contamination=0.01, p_data_buffer=25,
-                                                         p_delay=5, p_max_samples=3, p_visualize = p_visualize)
+        anomalydetector = WrSklearnIsolationForest2MLPro( p_group_anomaly_det=False, 
+                                                          p_estimators=50, 
+                                                          p_contamination=0.01, 
+                                                          p_data_buffer=25,
+                                                          p_delay=5, 
+                                                          p_max_samples=3, 
+                                                          p_visualize = p_visualize,
+                                                          p_logging=p_logging )
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )

@@ -45,7 +45,7 @@ from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class AdScenario4ADlof (OAScenario):
+class AdScenario4ADlof (OAStreamScenario):
 
     C_NAME = 'AdScenario4ADlof'
 
@@ -54,36 +54,42 @@ class AdScenario4ADlof (OAScenario):
 
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
-                                       p_outlier_rate= 0.1,
-                                       p_visualize=p_visualize, 
-                                       p_logging=p_logging )
+                                         p_outlier_rate= 0.1,
+                                         p_visualize=p_visualize, 
+                                         p_logging=p_logging )
 
         # 2 Creation of a workflow
-        workflow = OAWorkflow( p_name='wf1',
-                               p_range_max=OAWorkflow.C_RANGE_NONE,
-                               p_ada=p_ada,
-                               p_visualize=p_visualize, 
-                               p_logging=p_logging )
+        workflow = OAStreamWorkflow( p_name='wf1',
+                                     p_range_max=OAStreamWorkflow.C_RANGE_NONE,
+                                     p_ada=p_ada,
+                                     p_visualize=p_visualize, 
+                                     p_logging=p_logging )
 
         # 3 Initialize a Boundarydetector task
         task_bd = BoundaryDetector( p_name='Demo Boundary Detector', 
-                                                 p_ada=p_ada, 
-                                                 p_visualize=p_visualize,
-                                                 p_logging=p_logging )
+                                    p_ada=p_ada, 
+                                    p_visualize=p_visualize,
+                                    p_logging=p_logging )
         
         # 4 Initialize a Normalizer task
         task_norm = NormalizerMinMax( p_name='Demo MinMax Normalizer', 
-                                                 p_ada=p_ada, 
-                                                 p_visualize=p_visualize,
-                                                 p_logging=p_logging)
+                                      p_ada=p_ada, 
+                                      p_visualize=p_visualize,
+                                      p_logging=p_logging )
 
         # 5 Initiailise the lof anomaly detctor class
-        anomalydetector =WrSklearnLOF2MLPro(p_group_anomaly_det=True, p_neighbours = 3, p_delay=3, p_visualize=p_visualize, p_data_buffer=5)
-
+        anomalydetector =WrSklearnLOF2MLPro( p_group_anomaly_det=True, 
+                                             p_neighbours = 3, 
+                                             p_delay=3, 
+                                             p_data_buffer=5,
+                                             p_visualize=p_visualize, 
+                                             p_logging=p_logging )
+ 
         # 6 Addition of the task to the workflow
         workflow.add_task(p_task = task_bd)
         workflow.add_task(p_task = task_norm, p_pred_tasks=[task_bd])
-        workflow.add_task(p_task=anomalydetector, p_pred_tasks=[task_norm] )
+        workflow.add_task(p_task = anomalydetector, p_pred_tasks=[task_norm] )
+        task_bd.register_event_handler( p_event_id = BoundaryDetector.C_EVENT_ADAPTED, p_event_handler = task_norm.adapt_on_event )
 
         # 7 Return stream and workflow
         return mystream, workflow
