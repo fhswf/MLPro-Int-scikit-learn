@@ -7,6 +7,7 @@
 --->
 [![PyPI Total Downloads](https://static.pepy.tech/personalized-badge/mlpro-int-scikit-learn?period=total&units=international_system&left_color=blue&right_color=orange&left_text=PyPI%20Total%20Downloads)](https://pepy.tech/project/mlpro-int-scikit-learn)
 [![PyPI Last Month Downloads](https://static.pepy.tech/personalized-badge/mlpro-int-scikit-learn?period=month&units=international_system&left_color=blue&right_color=orange&left_text=PyPI%20Last%20Month%20Downloads)](https://pepy.tech/project/mlpro-int-scikit-learn)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11159759.svg)](https://doi.org/10.5281/zenodo.11159759)
 
 
 <img src="https://github.com/fhswf/MLPro-Int-Scikit-learn/blob/main/doc/logo/original/logo.png?raw=True" align="right" width="40%"/>
