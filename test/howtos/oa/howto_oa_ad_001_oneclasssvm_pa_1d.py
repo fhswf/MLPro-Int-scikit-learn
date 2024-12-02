@@ -42,7 +42,7 @@ from mlpro_int_sklearn.wrappers.anomalydetectors.ocsvm import WrSklearnOneClassS
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class AdScenario4ADsvm (OAScenario):
+class AdScenario4ADsvm (OAStreamScenario):
 
     C_NAME = 'AdScenario4ADsvm'
 
@@ -56,11 +56,11 @@ class AdScenario4ADsvm (OAScenario):
                                          p_logging=p_logging )
 
         # 2 Creation of a workflow
-        workflow = OAWorkflow( p_name='wf1',
-                               p_range_max=OAWorkflow.C_RANGE_NONE,
-                               p_ada=p_ada,
-                               p_visualize=p_visualize, 
-                               p_logging=p_logging )
+        workflow = OAStreamWorkflow( p_name='wf1',
+                                     p_range_max=OAStreamWorkflow.C_RANGE_NONE,
+                                     p_ada=p_ada,
+                                     p_visualize=p_visualize, 
+                                     p_logging=p_logging )
 
         # 3 Initiailise the lof anomaly detctor class
         anomalydetector = WrSklearnOneClassSVM2MLPro( p_group_anomaly_det=False, 
@@ -71,7 +71,8 @@ class AdScenario4ADsvm (OAScenario):
                                                       p_nu=0.01,
                                                       p_degree=4,
                                                       p_coef=0, 
-                                                      p_visualize=p_visualize )
+                                                      p_visualize=p_visualize,
+                                                      p_logging=p_logging )
 
         # 4 Add anomaly detection task to workflow
         workflow.add_task( p_task=anomalydetector )
