@@ -14,10 +14,11 @@
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
+## -- 2025-02-14  1.5.0     DA       Correction and alignment with MLPro 1.9.5
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.4.0 (2024-11-27)
+Ver. 1.5.0 (2025-02-14)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -35,46 +36,47 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 
 
-
-
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
+class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorPAGA, WrapperSklearn):
     """
-    This is the base class for anomaly detection FOR anomaly detection algorithms which are wrapped
+    This is the base class for anomaly detection for anomaly detection algorithms which are wrapped
     from Scikit-Learn ecosystem.
     
     """
-    C_TYPE = 'ScikitLearn Anomaly Detector'
+    C_TYPE = 'Scikit-learn Anomaly Detector'
     C_NAME = 'ScikitLearn Anomlay Detector'
 
 ## -------------------------------------------------------------------------------------------------
-    def __init__(self,
-                 p_data_buffer = 20,
-                 p_delay = 3,
-                 p_group_anomaly_det = True,
-                 p_name:str = None,
-                 p_range_max = StreamTask.C_RANGE_THREAD,
-                 p_ada : bool = True,
-                 p_duplicate_data : bool = False,
-                 p_visualize : bool = False,
-                 p_logging=Log.C_LOG_ALL,
-                 **p_kwargs):
+    def __init__( self,
+                  p_data_buffer = 20,
+                  p_delay = 3,
+                  p_group_anomaly_det = True,
+                  p_name:str = None,
+                  p_range_max = StreamTask.C_RANGE_THREAD,
+                  p_ada : bool = True,
+                  p_duplicate_data : bool = False,
+                  p_visualize : bool = False,
+                  p_logging=Log.C_LOG_ALL,
+                  **p_kwargs ):
 
-        super().__init__(p_group_anomaly_det=p_group_anomaly_det,
-                         p_name = p_name,
-                         p_range_max = p_range_max,
-                         p_ada = p_ada,
-                         p_duplicate_data = p_duplicate_data,
-                         p_visualize = p_visualize,
-                         p_logging = p_logging,
-                         **p_kwargs)
+        AnomalyDetectorPAGA.__init__( self,
+                                      p_group_anomaly_det = p_group_anomaly_det,
+                                      p_name = p_name,
+                                      p_range_max = p_range_max,
+                                      p_ada = p_ada,
+                                      p_duplicate_data = p_duplicate_data,
+                                      p_visualize = p_visualize,
+                                      p_logging = p_logging,
+                                      **p_kwargs )
+        
+        WrapperSklearn.__init__( self, p_logging = p_logging )
         
         self.data_buffer = p_data_buffer
-        self.delay = p_delay
+        self.delay       = p_delay
         self.data_points = []
-        self.inst_value = 0
-        self._visualize = p_visualize
+        self.inst_value  = 0
+        self._visualize  = p_visualize
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -105,11 +107,11 @@ class WrAnomalyDetectorSklearn2MLPro(AnomalyDetectorPAGA, WrapperSklearn):
             self.adapt(p_inst = { inst_id : ( inst_type, inst ) } )
 
             if -1 in self.ano_scores:
-                anomaly = PointAnomaly( p_id=self._get_next_anomaly_id, 
-                                        p_instances=[inst], 
-                                        p_ano_scores=self.ano_scores,
-                                        p_visualize=self._visualize, 
-                                        p_raising_object=self,
-                                        p_det_time=str(inst.tstamp) )
+                anomaly = PointAnomaly( p_id = self._get_next_anomaly_id(), 
+                                        p_instances = [inst], 
+                                        p_ano_scores = self.ano_scores,
+                                        p_visualize = self._visualize, 
+                                        p_raising_object = self,
+                                        p_tstamp=inst.tstamp )
                 self._raise_anomaly_event(anomaly)
 
