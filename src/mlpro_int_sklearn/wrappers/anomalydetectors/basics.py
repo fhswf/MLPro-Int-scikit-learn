@@ -45,7 +45,6 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorPAGA, WrapperSklearn):
     
     """
     C_TYPE = 'Scikit-learn Anomaly Detector'
-    C_NAME = 'ScikitLearn Anomlay Detector'
 
 ## -------------------------------------------------------------------------------------------------
     def __init__( self,
