@@ -43,7 +43,7 @@ from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetector
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrSklearnIsolationForest2MLPro(WrAnomalyDetectorSklearn2MLPro):
+class WrSklearnIsolationForest2MLPro (WrAnomalyDetectorSklearn2MLPro):
     C_NAME          = 'Isolation Forest Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 

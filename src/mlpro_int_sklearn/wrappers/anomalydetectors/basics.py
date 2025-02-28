@@ -14,11 +14,11 @@
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
-## -- 2025-02-14  1.5.0     DA       Correction and alignment with MLPro 1.9.5
+## -- 2025-02-28  1.5.0     DA       Correction and alignment with MLPro 1.9.5
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.5.0 (2025-02-14)
+Ver. 1.5.0 (2025-02-28)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -29,8 +29,8 @@ https://scikit-learn.org
 
 from mlpro.bf.various import Log
 from mlpro.bf.streams import StreamTask, InstDict, InstTypeNew
-from mlpro.oa.streams.tasks.anomalydetectors import *
-from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
+from mlpro.oa.streams.tasks.anomalydetectors.instancebased import AnomalyDetectorIBPG
+from mlpro.oa.streams.tasks.anomalydetectors.anomalies.instancebased import PointAnomaly
 
 from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
@@ -38,13 +38,13 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorPAGA, WrapperSklearn):
+class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
     """
     This is the base class for anomaly detection for anomaly detection algorithms which are wrapped
     from Scikit-Learn ecosystem.
-    
     """
-    C_TYPE = 'Scikit-learn Anomaly Detector'
+
+    C_TYPE = 'Anomaly Detector (scikit-learn)'
 
 ## -------------------------------------------------------------------------------------------------
     def __init__( self,
@@ -59,7 +59,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorPAGA, WrapperSklearn):
                   p_logging=Log.C_LOG_ALL,
                   **p_kwargs ):
 
-        AnomalyDetectorPAGA.__init__( self,
+        AnomalyDetectorIBPG.__init__( self,
                                       p_group_anomaly_det = p_group_anomaly_det,
                                       p_name = p_name,
                                       p_range_max = p_range_max,
@@ -111,6 +111,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorPAGA, WrapperSklearn):
                                         p_ano_scores = self.ano_scores,
                                         p_visualize = self._visualize, 
                                         p_raising_object = self,
-                                        p_tstamp=inst.tstamp )
-                self._raise_anomaly_event(anomaly)
+                                        p_tstamp = inst.tstamp )
+                
+                self._raise_anomaly_event( p_anomaly = anomaly )
 
