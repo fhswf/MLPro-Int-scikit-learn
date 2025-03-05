@@ -1,7 +1,7 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_scikit_learn
-## -- Module  : howto_oa_ad_028_lof_pogo_nd.py
+## -- Module  : howto_oa_ad_028_lof_paga_nd.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
@@ -10,10 +10,11 @@
 ## -- 2024-04-06  1.0.1     DA       Set 2D mode
 ## -- 2024-05-07  1.0.2     SK       Change in parameter p_outlier_rate
 ## -- 2024-11-27  1.1.0     DA       Alignment with MLPro 1.9.2
+## -- 2025-03-05  1.2.0     DA       Refactoring
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-11-27)
+Ver. 1.2.0 (2025-03-05)
 
 This module demonstrates the use of anomaly detector based on local outlier factor algorithm with MLPro.
 To this regard, a stream of a stream provider is combined with a stream workflow to a stream scenario.
@@ -32,22 +33,25 @@ Local Outlier Factor
 
 """
 
+from sklearn.neighbors import LocalOutlierFactor as LOF
 
 from mlpro.bf.various import Log
-from mlpro.oa.streams import *
-from mlpro.oa.streams.tasks import BoundaryDetector, NormalizerMinMax
+from mlpro.bf.plot import PlotSettings
+from mlpro.bf.ops import Mode
 from mlpro.bf.streams.streams import StreamMLProPOutliers
+from mlpro.oa.streams import OAStreamScenario, OAStreamWorkflow
+from mlpro.oa.streams.tasks import BoundaryDetector, NormalizerMinMax
 
-from mlpro_int_sklearn.wrappers.anomalydetectors import WrSklearnLOF2MLPro
+from mlpro_int_sklearn.wrappers.anomalydetectors import WrAnomalyDetectorSklearn2MLPro
 
 
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class AdScenario4ADlof (OAStreamScenario):
+class ADScenarioLOF (OAStreamScenario):
 
-    C_NAME = 'AdScenario4ADlof'
+    C_NAME = 'Scikit-learn Local Outlier Factor'
 
 ## -------------------------------------------------------------------------------------------------
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
@@ -77,13 +81,16 @@ class AdScenario4ADlof (OAStreamScenario):
                                       p_visualize=p_visualize,
                                       p_logging=p_logging )
 
-        # 5 Initiailise the lof anomaly detctor class
-        anomalydetector =WrSklearnLOF2MLPro( p_group_anomaly_det=True, 
-                                             p_neighbours = 3, 
-                                             p_delay=3, 
-                                             p_data_buffer=5,
-                                             p_visualize=p_visualize, 
-                                             p_logging=p_logging )
+        # 5 Instantiation of Scikit-learn 'Local Outlier Factor' anomaly detector
+        scikit_learn_lof = LOF( n_neighbors = 3 )
+
+        # 6 Wrapping of the Scikit-learn algorithm and integration into the stream workflow
+        anomalydetector = WrAnomalyDetectorSklearn2MLPro( p_algo_scikit_learn = scikit_learn_lof,
+                                                          p_delay = 3,
+                                                          p_instance_buffer_size = 5,
+                                                          p_group_anomaly_det = True,
+                                                          p_visualize = p_visualize,
+                                                          p_logging = p_logging )
  
         # 6 Addition of the task to the workflow
         workflow.add_task(p_task = task_bd)
@@ -114,10 +121,10 @@ else:
 
 
 # 2 Instantiate the stream scenario
-myscenario = AdScenario4ADlof( p_mode=Mode.C_MODE_REAL,
-                                 p_cycle_limit=cycle_limit,
-                                 p_visualize=visualize,
-                                 p_logging=logging )
+myscenario = ADScenarioLOF( p_mode = Mode.C_MODE_REAL,
+                            p_cycle_limit = cycle_limit,
+                            p_visualize = visualize,
+                            p_logging = logging )
 
 if visualize:
     myscenario.init_plot( p_plot_settings=PlotSettings( p_view = PlotSettings.C_VIEW_ND,

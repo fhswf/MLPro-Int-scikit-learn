@@ -14,25 +14,28 @@
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
-## -- 2025-02-28  1.5.0     DA       Correction and alignment with MLPro 1.9.5
+## -- 2025-03-05  2.0.0     DA       Alignment with MLPro 1.9.5 and generalization
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.5.0 (2025-02-28)
+Ver. 2.0.0 (2025-03-05)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
 Learn more:
-https://scikit-learn.org
+https://scikit-learn.org/stable/modules/outlier_detection.html
 
 """
 
+import numpy as np
+from sklearn.base import OutlierMixin
+
 from mlpro.bf.various import Log
-from mlpro.bf.streams import StreamTask, InstDict, InstTypeNew
+from mlpro.bf.streams import StreamTask, Instance, InstDict, InstTypeNew
 from mlpro.oa.streams.tasks.anomalydetectors.instancebased import AnomalyDetectorIBPG
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies.instancebased import PointAnomaly
 
-from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
+from mlpro_int_sklearn.wrappers import WrapperSklearn
 
 
 
@@ -40,42 +43,65 @@ from mlpro_int_sklearn.wrappers.basics import WrapperSklearn
 ## -------------------------------------------------------------------------------------------------
 class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
     """
-    This is the base class for anomaly detection for anomaly detection algorithms which are wrapped
-    from Scikit-Learn ecosystem.
+    MLPro's wrapper for anomaly detectors of the scikit-learn project. The wrapper raises anomalies
+    of type PointAnomaly and GroupAnomaly.
+
+    Parameters
+    ----------
+    p_algo_scikit_learn : OutlierMixin
+        Outlier algorithm from the scikit-learn framework to be wrapped
+    p_delay : int = 3
+        Number of instances before the detection starts. Default = 3.
+    p_instance_buffer_size : int = 20
+        Number of instances to be buffered internally as the basis for anomaly detection.
+    p_group_anomaly_det : bool
+        Paramter to activate group anomaly detection. Default is True.
+    p_range_max : int
+        Maximum range of asynchonicity. See class Range. Default is Range.C_RANGE_PROCESS.
+    p_ada : bool
+        Boolean switch for adaptivitiy. Default = True.
+    p_duplicate_data : bool
+        If True, instances will be duplicated before processing. Default = False.
+    p_visualize : bool
+        Boolean switch for visualisation. Default = False.
+    p_logging
+        Log level (see constants of class Log). Default: Log.C_LOG_ALL
+    p_anomaly_buffer_size : int = 100
+        Size of the internal anomaly buffer self.anomalies. Default = 100.
     """
 
     C_TYPE = 'Anomaly Detector (scikit-learn)'
 
 ## -------------------------------------------------------------------------------------------------
-    def __init__( self,
-                  p_data_buffer = 20,
-                  p_delay = 3,
-                  p_group_anomaly_det = True,
-                  p_name:str = None,
-                  p_range_max = StreamTask.C_RANGE_THREAD,
-                  p_ada : bool = True,
-                  p_duplicate_data : bool = False,
-                  p_visualize : bool = False,
-                  p_logging=Log.C_LOG_ALL,
-                  **p_kwargs ):
-
-        AnomalyDetectorIBPG.__init__( self,
-                                      p_group_anomaly_det = p_group_anomaly_det,
-                                      p_name = p_name,
-                                      p_range_max = p_range_max,
-                                      p_ada = p_ada,
-                                      p_duplicate_data = p_duplicate_data,
-                                      p_visualize = p_visualize,
-                                      p_logging = p_logging,
-                                      **p_kwargs )
+    def __init__( self, 
+                  p_algo_scikit_learn : OutlierMixin,
+                  p_delay : int = 3,
+                  p_instance_buffer_size : int = 20,
+                  p_group_anomaly_det = True, 
+                  p_range_max = StreamTask.C_RANGE_THREAD, 
+                  p_ada = True, 
+                  p_duplicate_data = False, 
+                  p_visualize = False, 
+                  p_logging=Log.C_LOG_ALL, 
+                  p_anomaly_buffer_size = 100 ):
         
         WrapperSklearn.__init__( self, p_logging = p_logging )
+
+        AnomalyDetectorIBPG.__init__( self, 
+                                      p_group_anomaly_det = p_group_anomaly_det, 
+                                      p_name = type(p_algo_scikit_learn).__name__, 
+                                      p_range_max = p_range_max, 
+                                      p_ada = p_ada, 
+                                      p_duplicate_data = p_duplicate_data, 
+                                      p_visualize = p_visualize, 
+                                      p_logging = p_logging, 
+                                      p_anomaly_buffer_size = p_anomaly_buffer_size )
         
-        self.data_buffer = p_data_buffer
-        self.delay       = p_delay
-        self.data_points = []
-        self.inst_value  = 0
-        self._visualize  = p_visualize
+        self._algo_scikitlearn  = p_algo_scikit_learn
+        self._inst_buffer_size  = p_instance_buffer_size
+        self._delay             = p_delay
+        self._inst_buffer       = []
+        self._ano_scores        = None
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -85,33 +111,59 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
 
             if inst_type != InstTypeNew: continue
 
-            feature_data = inst.get_feature_data()
+            self.adapt( p_inst = { inst_id : ( inst_type, inst ) } )
 
-            self.inst_value = feature_data.get_values()
-            self.ano_scores = []
-
-            if len(self.data_points) == 0:
-                for i in range(len(self.inst_value)):
-                    self.data_points.append([])
-
-            i=0
-            for value in self.inst_value:
-                self.data_points[i].append(value)
-                i+=1
-
-            if len(self.data_points[0]) > self.data_buffer:
-                for i in range(len(self.inst_value)):
-                    self.data_points[i].pop(0)
-
-            self.adapt(p_inst = { inst_id : ( inst_type, inst ) } )
-
-            if -1 in self.ano_scores:
+            if -1 in self._ano_scores:
                 anomaly = PointAnomaly( p_id = self._get_next_anomaly_id(), 
                                         p_instances = [inst], 
-                                        p_ano_scores = self.ano_scores,
-                                        p_visualize = self._visualize, 
+                                        p_ano_scores = self._ano_scores,
+                                        p_visualize = self.get_visualization(), 
                                         p_raising_object = self,
                                         p_tstamp = inst.tstamp )
                 
                 self._raise_anomaly_event( p_anomaly = anomaly )
 
+
+## -------------------------------------------------------------------------------------------------
+    def _adapt(self, p_inst_new: Instance) -> bool:
+
+        # 1 Intr0
+        adapted          = False
+        feature_data     = p_inst_new.get_feature_data()
+        feature_values   = feature_data.get_values()
+        self._ano_scores = []
+
+
+        # 2 Preparation of instance data buffer
+        if len(self._inst_buffer) == 0:
+            for i in range(len(feature_values)):
+                self._inst_buffer.append([])
+
+
+        # 3 Update of instance data buffer
+        if len(self._inst_buffer[0]) >= self._inst_buffer_size:
+            for i in range(len(feature_values)):
+                self._inst_buffer[i].pop(0)
+
+        for i, value in enumerate(feature_values):
+            self._inst_buffer[i].append(value)
+
+
+        # 4 Anomaly detection
+        if len(self._inst_buffer[0]) >= self._delay:
+            for i in range(len(feature_values)):
+                try:
+                    # Algorithms like Isolation Forest and One Class SVM provide methods fit() and predict()
+                    self._algo_scikitlearn.fit(np.array(self._inst_buffer[i]).reshape(-1, 1))
+                    scores = self._algo_scikitlearn.predict(np.array(self._inst_buffer[i]).reshape(-1, 1))
+                except:
+                    # Algorithms implementing method OutlierMixin.fit_predict()
+                    scores = self._algo_scikitlearn.fit_predict(np.array(self._inst_buffer[i]).reshape(-1, 1))
+
+                self._ano_scores.append(scores[-1])
+
+            adapted = True
+
+
+        # 5 Outro
+        return adapted

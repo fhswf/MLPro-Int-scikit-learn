@@ -1,7 +1,7 @@
 ## -------------------------------------------------------------------------------------------------
 ## -- Project : MLPro - The integrative middleware framework for standardized machine learning
 ## -- Package : mlpro_int_sklearn.wrappers.anomalydetectors
-## -- Module  : lof.py
+## -- Module  : isof.py
 ## -------------------------------------------------------------------------------------------------
 ## -- History :
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
@@ -10,7 +10,7 @@
 ## -- 2024-02-16  1.1.0     DA       Refactoring
 ## -- 2024-02-23  1.1.1     SK       Bug Fix
 ## -- 2024-04-16  1.1.2     DA       Bugfixes in 
-## --                                - WrSklearnLOF2MLPro._adapt()
+## --                                - WrSklearnIsolationForest2MLPro._adapt()
 ## -- 2024-05-07  1.2.0     SK       Separation of particular algorithms into separate modules
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
@@ -19,7 +19,7 @@
 """
 Ver. 1.4.0 (2024-11-27)
 
-This module provides wrapper functionalities to incorporate Local Outlier Factor algorithm of the 
+This module provides wrapper functionalities to incorporate Isolation Forest algorithm of the 
 Scikit-learn ecosystem.
 
 Learn more:
@@ -34,7 +34,7 @@ from mlpro.bf.streams import Instance, StreamTask
 from mlpro.oa.streams.tasks.anomalydetectors import *
 from mlpro.oa.streams.tasks.anomalydetectors.anomalies import *
 
-from sklearn.neighbors import LocalOutlierFactor as LOF
+from sklearn.ensemble import IsolationForest as IF
 
 from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetectorSklearn2MLPro
 
@@ -43,15 +43,23 @@ from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetector
 
 ## -------------------------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------------------------
-class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
-    C_NAME          = 'LOF Anomaly Detector'
+class WrSklearnIsolationForest2MLPro (WrAnomalyDetectorSklearn2MLPro):
+    C_NAME          = 'Isolation Forest Anomaly Detector'
     C_TYPE          = 'Anomaly Detector'
 
 ## -------------------------------------------------------------------------------------------------
     def __init__(self,
-                 p_neighbours = 10,
-                 p_delay = 3,
                  p_data_buffer = 20,
+                 p_delay = 3,
+                 p_estimators : int = 100,
+                 p_max_samples : int = "auto",
+                 p_contamination : float = "auto",
+                 p_max_features : int = 1,
+                 p_bootstrap : bool = True,
+                 p_no_jobs : int = None,
+                 p_random_state : int = None,
+                 p_verbose : int = 0,
+                 p_warm_start : bool = False,
                  p_group_anomaly_det = True,
                  p_name:str = None,
                  p_range_max = StreamTask.C_RANGE_THREAD,
@@ -72,20 +80,37 @@ class WrSklearnLOF2MLPro(WrAnomalyDetectorSklearn2MLPro):
                          p_logging = p_logging,
                          **p_kwargs)
         
-        self.num_neighbours = p_neighbours
-        self.lof = LOF(self.num_neighbours)
+        self.num_estimators = p_estimators
+        self.contamination = p_contamination
+        self.max_samples = p_max_samples
+        self.max_features = p_max_features
+        self.bootstrap = p_bootstrap
+        self.no_jobs = p_no_jobs
+        self.random_state = p_random_state
+        self.verbose = p_verbose
+        self.warm_start = p_warm_start
 
+        self.iso_f = IF(n_estimators=self.num_estimators,
+                        contamination=self.contamination,
+                        max_samples=self.max_samples,
+                        max_features=self.max_features,
+                        bootstrap=self.bootstrap,
+                        n_jobs=self.no_jobs,
+                        random_state=self.random_state,
+                        verbose=self.verbose,
+                        warm_start=self.warm_start)
+  
 
 ## -------------------------------------------------------------------------------------------------
     def _adapt(self, p_inst_new: Instance) -> bool:
         adapted = False
-
-        if len(self.data_points[0]) >= self.delay:
-            for i in range(len(self.inst_value)):
-                scores = self.lof.fit_predict(np.array(self.data_points[i]).reshape(-1, 1))
-                self.ano_scores.append(scores[-1])
+        
+        if len(self._inst_buffer[0]) >= self._delay:
+            for i in range(len(self._feature_values)):
+                self.iso_f.fit(np.array(self._inst_buffer[i]).reshape(-1, 1))
+                scores = self.iso_f.predict(np.array(self._inst_buffer[i]).reshape(-1, 1))
+                self._ano_scores.append(scores[-1])
                 adapted = True
 
         return adapted
-
 
