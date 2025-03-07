@@ -17,5 +17,5 @@ Howto OA-AD-023: Anomaly Detection using Local Outlier Factor (3D)
 
 
 
-**Cross Reference**
-    - :ref:`API Reference: Wrappers for scikit-learn Anomaly Detectors <api_ad>`
+**Cross reference**
+    - :ref:`API Reference: Wrapper for scikit-learn Anomaly Detectors <api_ad>`

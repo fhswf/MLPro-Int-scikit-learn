@@ -50,10 +50,10 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
     ----------
     p_algo_scikit_learn : OutlierMixin
         Outlier algorithm from the scikit-learn framework to be wrapped
-    p_delay : int = 3
+    p_delay : int
         Number of instances before the detection starts. Default = 3.
-    p_instance_buffer_size : int = 20
-        Number of instances to be buffered internally as the basis for anomaly detection.
+    p_instance_buffer_size : int
+        Number of instances to be buffered internally as the basis for anomaly detection. Default = 20.
     p_group_anomaly_det : bool
         Paramter to activate group anomaly detection. Default is True.
     p_range_max : int
@@ -77,7 +77,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
                   p_algo_scikit_learn : OutlierMixin,
                   p_delay : int = 3,
                   p_instance_buffer_size : int = 20,
-                  p_group_anomaly_det = True, 
+                  p_group_anomaly_det : bool = True, 
                   p_range_max = StreamTask.C_RANGE_THREAD, 
                   p_ada = True, 
                   p_duplicate_data = False, 

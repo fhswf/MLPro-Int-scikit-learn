@@ -1,5 +1,5 @@
 .. _howtos_anomaly_detectors:
-Reuse of scikit-learn Anomaly Detectors
+Reuse of scikit-learn anomaly detectors
 =======================================
 
 .. toctree::

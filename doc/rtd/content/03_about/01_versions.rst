@@ -1,7 +1,7 @@
-Release Notes
+Release notes
 =============
 
-Release Notes on GitHub:
+Release notes on GitHub:
     - `Latest release <https://github.com/fhswf/MLPro-Int-scikit-learn/releases/latest>`_
     - `Release history <https://github.com/fhswf/MLPro-Int-scikit-learn/releases>`_
 

@@ -1,10 +1,10 @@
-.. _Howto_OA_AD_005:
-Howto OA-AD-005: Extended Anomaly Detection using a One Class SVM (1D)
+.. _Howto_OA_AD_006:
+Howto OA-AD-006: Extended Anomaly Detection using a One Class SVM (2D)
 ======================================================================
 
 **Executable code**
 
-.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ad_005_oneclasssvm_paga_1d.py
+.. literalinclude:: ../../../../../test/howtos/oa/howto_oa_ad_006_oneclasssvm_paga_2d.py
 	:language: python
 
 
@@ -12,7 +12,7 @@ Howto OA-AD-005: Extended Anomaly Detection using a One Class SVM (1D)
 **Results**
 
 .. image::
-    images/howto_oa_ad_005_oneclasssvm_paga_1d.png
+    images/howto_oa_ad_006_oneclasssvm_paga_2d.png
     :width: 600px
 
 
