@@ -7,10 +7,11 @@
 ## -- yyyy-mm-dd  Ver.      Auth.    Description
 ## -- 2024-02-16  1.0.0     DA       First version
 ## -- 2024-04-18  1.1.0     DA       Alignment ot MLPro 1.4.0
+## -- 2025-03-05  1.2.0     DA       Update of minimum release of scikit-learn to 1.6.1
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.1.0 (2024-04-18)
+Ver. 1.2.0 (2025-03-05)
 
 This module contains the abstract root class for all scikit-learn wrapper classes.
 
@@ -34,7 +35,7 @@ class WrapperSklearn (Wrapper):
 
     C_TYPE              = 'Wrapper scikit-learn'
     C_WRAPPED_PACKAGE   = 'scikit-learn'
-    C_MINIMUM_VERSION   = '1.4.1'
+    C_MINIMUM_VERSION   = '1.6.1'
 
     C_SCIREF_TYPE       = ScientificObject.C_SCIREF_TYPE_ONLINE
     C_SCIREF_AUTHOR     = 'scikit-learn community'

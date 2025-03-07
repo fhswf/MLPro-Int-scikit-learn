@@ -1,5 +1,5 @@
 .. _howtos_streams:
-Reuse of scikit-learn Data Streams
+Reuse of scikit-learn data streams
 ==================================
 
 .. toctree::

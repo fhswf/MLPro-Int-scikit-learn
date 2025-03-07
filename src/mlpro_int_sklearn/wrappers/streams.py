@@ -22,10 +22,10 @@
 """
 Ver. 1.5.0 (2024-02-16)
 
-This module provides wrapper functionalities to incorporate public data sets of the Scikit-learn ecosystem.
+This module provides wrapper functionalities to incorporate public data sets of the scikit-learn ecosystem.
 
 Learn more:
-https://scikit-learn.org
+https://scikit-learn.org/stable/api/sklearn.datasets.html
 
 """
 

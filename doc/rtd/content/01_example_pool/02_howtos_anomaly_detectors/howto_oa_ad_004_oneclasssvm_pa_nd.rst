@@ -17,5 +17,5 @@ Howto OA-AD-004: Anomaly Detection using a One Class SVM (nD)
 
 
 
-**Cross Reference**
-    - :ref:`API Reference: Wrappers for scikit-learn Anomaly Detectors <api_ad>`
+**Cross reference**
+    - :ref:`API Reference: Wrapper for scikit-learn Anomaly Detectors <api_ad>`
