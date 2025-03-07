@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='mlpro-int-scikit-learn',
-version='0.2.0',
+version='0.3.0',
 description='MLPro: Integration scikit-learn',
 author='MLPro Team',
 author_mail='mlpro@listen.fh-swf.de',
@@ -12,8 +12,8 @@ packages=['mlpro_int_sklearn'],
 # Package dependencies for full installation
 extras_require={
     "full": [
-        "mlpro[full]>=1.9.4",
-        "scikit-learn>=1.4.1"
+        "mlpro[full]>=1.9.5",
+        "scikit-learn>=1.6.1"
     ],
 },
 

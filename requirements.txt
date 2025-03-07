@@ -1,2 +1,2 @@
-mlpro[full]>=1.9.4
-scikit-learn>=1.4.1
+mlpro[full]>=1.9.5
+scikit-learn>=1.6.1
