@@ -14,6 +14,6 @@ Welcome to MLPro-Int-scikit-learn, an extension to MLPro to integrate the scikit
 MLPro-Int-scikit-learn provides wrapper classes that enable the use of scikit-learn algorithms and data streams in your MLPro applications. The use of these wrappers is illustrated in various example programs.
 
 ### Learn more
-[MLPro - Machine Learning Professional](https://mlpro.readthedocs.io)   
+[MLPro - The integrative middleware framework for standardized machine learning in Python](https://mlpro.readthedocs.io)   
 [MLPro-Int-scikit-learn - Integration of scikit-learn into MLPro](https://mlpro-int-scikit-learn.readthedocs.io)   
-[scikit-learn - Machine Learning in Python](https://scikit-learn.org)   
+[Scikit-learn - Machine Learning in Python](https://scikit-learn.org)   
