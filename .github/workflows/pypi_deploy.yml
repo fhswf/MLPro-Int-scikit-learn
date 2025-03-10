@@ -23,6 +23,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    environment:
+      name: Deployment PyPI
+      url: https://pypi.org/p/mlpro-int-scikit-learn
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+
     steps:
     - name: Checkout Codes
       uses: actions/checkout@v4
@@ -46,7 +52,4 @@ jobs:
         --wheel
         --outdir dist/
     - name: Publish distribution to PyPI
-      # if: startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
