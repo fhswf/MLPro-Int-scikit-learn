@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='mlpro-int-scikit-learn',
-version='0.3.1',
+version='0.3.0',
 description='MLPro: Integration scikit-learn',
 author='MLPro Team',
 author_mail='mlpro@listen.fh-swf.de',

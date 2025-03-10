@@ -28,9 +28,10 @@ Before running the examples, please install the latest versions of MLPro, scikit
 **See also**
    - `MLPro - The integrative middleware framework for standardized machine learning in Python <https://mlpro.readthedocs.io>`_ 
    - `MLPro-OA - Sub-framework for online machine learning <https://mlpro.readthedocs.io/en/latest/content/03_machine_learning/mlpro_oa/main.html>`_
-   - `scikit-learn - Machine Learning in Python <https://scikit-learn.org>`_      
-   - `Further MLPro extensions <https://mlpro.readthedocs.io/en/latest/content/04_extensions/main.html>`_
+   - `Scikit-learn - Machine Learning in Python <https://scikit-learn.org>`_      
    - `MLPro-Int-scikit-learn on GitHub <https://github.com/fhswf/MLPro-Int-Scikit-learn>`_
+   - `MLPro-Int-scikit-learn on PyPI <https://pypi.org/project/mlpro-int-scikit-learn>`_
+   - `Further MLPro extensions <https://mlpro.readthedocs.io/en/latest/content/04_extensions/main.html>`_
 
 
 .. toctree::
