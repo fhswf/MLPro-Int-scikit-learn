@@ -15,10 +15,11 @@
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
 ## -- 2025-03-05  2.0.0     DA       Alignment with MLPro 1.9.5 and generalization
+## -- 2025-05-07  2.0.1     DA       Alignment with MLPro 2.2.0
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 2.0.0 (2025-03-05)
+Ver. 2.0.1 (2025-05-07)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -121,7 +122,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
                                         p_raising_object = self,
                                         p_tstamp = inst.tstamp )
                 
-                self._raise_anomaly_event( p_anomaly = anomaly )
+                self._raise_anomaly_event( p_anomaly = anomaly, p_inst = inst )
 
 
 ## -------------------------------------------------------------------------------------------------
