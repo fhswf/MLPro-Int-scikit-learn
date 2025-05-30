@@ -15,11 +15,12 @@
 ## -- 2024-05-24  1.3.0     DA       Refactoring
 ## -- 2024-11-27  1.4.0     DA       Alignment with MLPro 1.9.2
 ## -- 2025-03-05  2.0.0     DA       Alignment with MLPro 1.9.5 and generalization
-## -- 2025-05-07  2.0.1     DA       Alignment with MLPro 2.2.0
+## -- 2025-05-07  2.0.1     DA       Alignment with MLPro 2.0.0
+## -- 2025-05-30  2.0.2     DA/DS    Alignment with MLPro 2.0.2
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 2.0.1 (2025-05-07)
+Ver. 2.0.2 (2025-05-30)
 
 This module provides wrapper root classes from Scikit-learn to MLPro, specifically for anomaly detectors. 
 
@@ -33,8 +34,8 @@ from sklearn.base import OutlierMixin
 
 from mlpro.bf.various import Log
 from mlpro.bf.streams import StreamTask, Instance, InstDict, InstTypeNew
-from mlpro.oa.streams.tasks.anomalydetectors.instancebased import AnomalyDetectorIBPG
-from mlpro.oa.streams.tasks.anomalydetectors.anomalies.instancebased import PointAnomaly
+from mlpro.oa.streams.tasks.changedetectors.anomalydetectors.instancebased import AnomalyDetectorIBPG
+from mlpro.oa.streams.tasks.changedetectors.anomalydetectors.anomalies.instancebased import PointAnomaly
 
 from mlpro_int_sklearn.wrappers import WrapperSklearn
 
