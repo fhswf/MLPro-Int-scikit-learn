@@ -53,7 +53,7 @@ class ADScenarioIF (OAStreamScenario):
     def _setup(self, p_mode, p_ada: bool, p_visualize: bool, p_logging):
 
         # 1 Get the native stream from MLPro stream provider
-        mystream = StreamMLProPOutliers( p_functions = ['sin'],
+        mystream = StreamMLProPOutliers( p_functions = ['sin', 'cos'],
                                          p_outlier_rate=0.02,
                                          p_visualize=p_visualize, 
                                          p_logging=p_logging )
@@ -72,8 +72,8 @@ class ADScenarioIF (OAStreamScenario):
         
         # 4 Wrapping of the Scikit-learn algorithm and integration into the stream workflow
         anomalydetector = WrAnomalyDetectorSklearn2MLPro( p_algo_scikit_learn = scikit_learn_if,
-                                                          p_delay = 5,
-                                                          p_instance_buffer_size = 25,
+                                                          p_instance_buffer_size = 10,
+                                                          p_detection_steprate = 1,
                                                           p_group_anomaly_det = False,
                                                           p_visualize = p_visualize,
                                                           p_logging = p_logging )
@@ -91,7 +91,7 @@ class ADScenarioIF (OAStreamScenario):
 # 1 Preparation of demo/unit test mode
 if __name__ == "__main__":
     # 1.1 Parameters for demo mode
-    cycle_limit = 100
+    cycle_limit = 500
     logging     = Log.C_LOG_ALL
     visualize   = True
     step_rate   = 2
