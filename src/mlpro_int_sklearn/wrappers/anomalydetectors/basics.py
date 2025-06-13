@@ -134,8 +134,6 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
 
         self._inst_buffer_pos : int          = 0
 
-        self._anomalic_instances : dict      = {}
-
         self._block_mode = ( self._detection_steprate == self._inst_buffer_size )
         
 
@@ -186,20 +184,23 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
                 self._inst_data_buffer_full = True
 
 
-        # 4 Feature-wise anomaly detection
-        for f in range(num_features):
-            scores = self._algo_scikitlearn.fit_predict(self._inst_data_buffer[:,f])
+        # 4 Anomaly detection
+        scores = self._algo_scikitlearn.fit_predict(self._inst_data_buffer)
+        
+        # 4.1 Check for anomalies in scores
+        for i in np.where(scores == -1)[0]:
+            related_instance = self._inst_ref_buffer[i]
 
-            # for each -1 in scores: 
-            # - identify regarding instance
-            # - if instance has not been alerted: raise PointAnomaly
+            if not self._block_mode:
+                # 4.1.1 In case of sliding window, multiple raise of anomalies for the same instance
+                #       needs to be avoided.
+                if related_instance is np.nan: continue
+                self._inst_ref_buffer[i] = np.nan
 
-            # if -1 in ano_scores:
-            #     anomaly = PointAnomaly( p_id = self._get_next_anomaly_id(), 
-            #                             p_instances = [p_instance], 
-            #                             p_ano_scores = ano_scores,
-            #                             p_visualize = self.get_visualization(), 
-            #                             p_raising_object = self,
-            #                             p_tstamp = p_instance.tstamp )
-                
-            #     self._raise_anomaly_event( p_anomaly = anomaly, p_instance = p_instance )
+            anomaly = PointAnomaly( p_status = True,
+                                    p_tstamp = related_instance.tstamp,
+                                    p_visualize = self.get_visualization(), 
+                                    p_raising_object = self,
+                                    p_instances = [related_instance] )
+            
+            self._raise_anomaly_event( p_anomaly = anomaly, p_instance = p_instance )
