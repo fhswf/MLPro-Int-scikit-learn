@@ -54,7 +54,7 @@ class ADScenarioEE (OAStreamScenario):
                 p_visualize: bool, 
                 p_logging,
                 p_contamination: float = 0.01,
-                p_support_fraction: float = None,
+                p_support_fraction: float = 0.5,
                 p_assume_centered: bool = False,
                 p_anomaly_buffer_size: int = 100,
                 p_instance_buffer_size: int = 50,
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     logging                 = Log.C_LOG_ALL
     step_rate               = 1
     contamination           = 0.01
-    support_fraction        = None
+    support_fraction        = 0.5
     assume_centered         = False
     anomaly_buffer_size     = 100
     instance_buffer_size    = 50
@@ -134,7 +134,7 @@ else:
     visualize               = False
     step_rate               = 1
     contamination           = 0.01
-    support_fraction        = None
+    support_fraction        = 0.5
     assume_centered         = False
     anomaly_buffer_size     = 100
     instance_buffer_size    = 10
