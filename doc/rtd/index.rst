@@ -15,6 +15,8 @@ provides numerous state-of-the-art algorithms for a vast amount of machine learn
 MLPro-Int-scikit-learn provides wrapper classes that enable the use of scikit-learn algorithms and 
 data streams in your MLPro applications. The use of these wrappers is illustrated in various example programs.
 
+.. image:: MLPro-Int-scikit-learn.gif
+   :width: 300
 
 **Preparation**
 
