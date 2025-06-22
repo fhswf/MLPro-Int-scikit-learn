@@ -36,7 +36,7 @@ from sklearn.base import OutlierMixin
 
 from mlpro.bf.various import Log
 from mlpro.bf.exceptions import ParamError
-from mlpro.bf.streams import StreamTask, Instance, InstDict, InstTypeNew
+from mlpro.bf.streams import StreamTask, Instance
 from mlpro.oa.streams.tasks.changedetectors.anomalydetectors.instancebased import AnomalyDetectorIBPG
 from mlpro.oa.streams.tasks.changedetectors.anomalydetectors.anomalies.instancebased import PointAnomaly
 
@@ -52,23 +52,6 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
     detectors of type 'OutlierMixin' providing the method fit_predict() for a mixed data 
     training/prediction. 
 
-    Supported algorithms
-    --------------------
-    LOF - Local Outlier Factor
-    IF - Isolation Forest
-    Elliptic Envelope
-    Further ones inherited from 'OutlierMixin'
-
-    Additional features
-    -------------------
-    Optional group anomaly detection
-    2D/3D anomaly visualization
-
-    Supported types of anomalies
-    ----------------------------
-    PointAnomaly
-    GroupAnomaly
-
     Parameters
     ----------
     p_algo_scikit_learn : OutlierMixin
@@ -79,7 +62,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
         If True, instances will be duplicated before processing. Default = False.
     p_visualize : bool
         Boolean switch for visualisation. Default = False.
-    p_logging
+    p_logging : int = Log.C_LOG_ALL
         Log level (see constants of class Log). Default: Log.C_LOG_ALL
     p_anomaly_buffer_size : int = 100
         Size of the internal anomaly buffer self.anomalies. Default = 100.
@@ -89,6 +72,22 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
         Detection steprate in the interval [1,p_instance_buffer_size].
     p_group_anomaly_det : bool
         Paramter to activate group anomaly detection. Default is True.
+
+    Notes
+    -----
+    Supported algorithms
+        - LOF - Local Outlier Factor
+        - IF - Isolation Forest
+        - Elliptic Envelope
+        - Further ones inherited from 'OutlierMixin'
+
+    Additional features
+        - Optional group anomaly detection
+        - 2D/3D anomaly visualization
+
+    Supported types of anomalies
+        - PointAnomaly
+        - GroupAnomaly
     """
 
     C_TYPE = 'Anomaly Detector (scikit-learn)'
@@ -138,7 +137,7 @@ class WrAnomalyDetectorSklearn2MLPro (AnomalyDetectorIBPG, WrapperSklearn):
         
 
 ## -------------------------------------------------------------------------------------------------
-    def _detect(self, p_instance, **p_kwargs):
+    def _detect(self, p_instance : Instance, **p_kwargs):
 
         # 1 Intro
         feature_data   = p_instance.get_feature_data()

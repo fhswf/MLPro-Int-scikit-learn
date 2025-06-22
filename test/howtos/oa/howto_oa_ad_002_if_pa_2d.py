@@ -69,7 +69,7 @@ class ADScenarioIF (OAStreamScenario):
         # 1 Get the native stream from MLPro stream provider
         mystream = StreamMLProPOutliers( p_functions = ['sin' , 'cos' ], #, 'const'],
                                          p_outlier_rate=0.02,
-                                         p_visualize=p_visualize, 
+                                         p_seed = 1, 
                                          p_logging=p_logging )
 
         # 2 Creation of a workflow
