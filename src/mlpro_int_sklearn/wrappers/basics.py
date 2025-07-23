@@ -8,10 +8,11 @@
 ## -- 2024-02-16  1.0.0     DA       First version
 ## -- 2024-04-18  1.1.0     DA       Alignment ot MLPro 1.4.0
 ## -- 2025-03-05  1.2.0     DA       Update of minimum release of scikit-learn to 1.6.1
+## -- 2025-07-23  1.3.0     DA       Refactoring 
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.2.0 (2025-03-05)
+Ver. 1.3.0 (2025-07-23)
 
 This module contains the abstract root class for all scikit-learn wrapper classes.
 
@@ -22,6 +23,11 @@ https://scikit-learn.org
 
 from mlpro.bf.various import ScientificObject
 from mlpro.wrappers import Wrapper
+
+
+
+# Export list for public API
+__all__ = [ 'WrapperSklearn' ]
 
 
 

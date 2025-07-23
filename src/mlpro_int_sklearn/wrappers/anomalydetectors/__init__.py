@@ -1,1 +1,1 @@
-from mlpro_int_sklearn.wrappers.anomalydetectors.basics import WrAnomalyDetectorSklearn2MLPro
+from .basics import *
