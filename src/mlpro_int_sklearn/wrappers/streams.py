@@ -18,10 +18,11 @@
 ## -- 2023-06-09  1.4.0     DA       Made the wrapper a sub-package
 ## -- 2024-02-16  1.5.0     DA       Refactoring
 ## -- 2024-02-16  1.6.0     DA       Refactoring
+## -- 2025-07-23  1.7.0     DA       Refactoring 
 ## -------------------------------------------------------------------------------------------------
 
 """
-Ver. 1.6.0 (2025-7-16)
+Ver. 1.7.0 (2025-07-23)
 
 This module provides wrapper functionalities to incorporate public data sets of the scikit-learn ecosystem.
 
@@ -32,14 +33,19 @@ https://scikit-learn.org/stable/api/sklearn.datasets.html
 
 
 import numpy
-
 from sklearn import datasets as sklearn_datasets
 
-from mlpro.bf.ops import Mode
+from mlpro.bf import Log, Mode
+from mlpro.bf.various import ScientificObject
 from mlpro.bf.math import *
 from mlpro.bf.streams import *
 
 from mlpro_int_sklearn.wrappers import WrapperSklearn
+
+
+
+# Export list for public API
+__all__ = [ 'WrStreamProviderSklearn' ]
 
 
 

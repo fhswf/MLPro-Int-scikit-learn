@@ -1,1 +1,1 @@
-from mlpro_int_sklearn.wrappers import *
+from .wrappers import *

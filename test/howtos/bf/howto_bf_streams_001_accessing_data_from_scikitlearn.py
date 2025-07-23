@@ -32,8 +32,10 @@ You will learn:
 """
 
 
+from datetime import datetime
+
 from mlpro_int_sklearn import *
-from mlpro.bf.various import Log
+from mlpro.bf import Log
 
 
 
