@@ -1,5 +1,5 @@
 {
-  "title": "MLPro-Int-scikit-learn - Integration of scikit-learn into MLPro",
+  "title": "Github repository fhswf/MLPro-Int-scikit-learn",
   "description": "This repository provides wrapper classes that enable the use of selected scikit-learn functionalities in your MLPro applications.",
   "creators": [
     {
